@@ -1,21 +1,21 @@
-import axios from 'axios'
+import axios from "axios";
 
 const client = axios.create({
-  baseURL: 'http://localhost:8083/',
+  baseURL: "http://localhost:8083/",
   json: true
-})
+});
 
 export default {
-  async execute (method, resource, data) {
+  async execute(method, resource, data) {
     return client({
       method,
       url: resource,
-      data,
+      data
     }).then(req => {
-      return req.data
-    })
+      return req.data;
+    });
   },
-  getCustomers () {
-    return this.execute('get', '/customers')
+  getCustomers() {
+    return this.execute("get", "/customers");
   }
-}
+};

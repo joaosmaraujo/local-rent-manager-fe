@@ -24,41 +24,21 @@
   </div>
 </template>
 <script>
-import api from '@/api'
+import api from "@/api";
 export default {
-  data () {
+  data() {
     return {
       customers: []
-    }
+    };
   },
-  async created () {
-    this.getCustomers()
+  async created() {
+    this.getCustomers();
   },
   methods: {
-    async getCustomers () {
-      this.customers = await api.getCustomers()
-      this.loading = false
-    },
+    async getCustomers() {
+      this.customers = await api.getCustomers();
+      this.loading = false;
+    }
   }
-}
+};
 </script>
-
-<style scoped>
-.list-horizontal li {
-  display: inline-block;
-}
-
-.list-horizontal li:before {
-  content: "\00a0\2022\00a0\00a0";
-
-  color: #999;
-
-  color: rgba(0, 0, 0, 0.5);
-
-  font-size: 11px;
-}
-
-.list-horizontal li:first-child:before {
-  content: "";
-}
-</style>

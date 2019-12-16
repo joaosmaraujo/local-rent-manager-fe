@@ -37,7 +37,6 @@ export default {
   methods: {
     async getCustomers() {
       this.customers = await api.getCustomers();
-      this.loading = false;
     }
   }
 };

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <router-link :to="{ name: 'tasksList' }">View all tasks</router-link>
+    <router-link :to="{ name: 'worksList' }">View all works</router-link>
 
-    <form class="form" @submit.prevent="saveTask">
+    <form class="form" @submit.prevent="saveWork">
       <label for="name" class="label">Name:</label>
       <p class="control">
-        <input type="text" class="input" name="name" v-model="task.name" />
+        <input type="text" class="input" name="name" v-model="work.name" />
       </p>
       <label for="frequency" class="label">Frequency:</label>
       <p class="control">
@@ -13,7 +13,7 @@
           type="text"
           class="input"
           name="frequency"
-          v-model="task.frequency"
+          v-model="work.frequency"
         />
       </p>
       <label for="advance" class="label">Advance:</label>
@@ -22,7 +22,7 @@
           type="text"
           class="input"
           name="advance"
-          v-model="task.advance"
+          v-model="work.advance"
         />
       </p>
       <div class="control is-grouped">
@@ -30,7 +30,7 @@
           <button class="button is-primary">Submit</button>
         </p>
         <p class="control">
-          <router-link :to="{ name: 'tasksList' }"
+          <router-link :to="{ name: 'worksList' }"
             ><button class="button is-link">Cancel</button></router-link
           >
         </p>
@@ -45,20 +45,20 @@ import api from "@/api";
 export default {
   data() {
     return {
-      task: {}
+      work: {}
     };
   },
 
   async created() {
-    if ("taskId" in this.$route.params) {
-      this.getTask(this.$route.params.taskId);
+    if ("workId" in this.$route.params) {
+      this.getWork(this.$route.params.workId);
     }
   },
 
   methods: {
-    saveTask() {
-      api.create("tasks", this.task).then(() => {
-        this.$router.push({ name: "tasksList" });
+    saveWork() {
+      api.create("works", this.work).then(() => {
+        this.$router.push({ name: "worksList" });
       });
     }
   }

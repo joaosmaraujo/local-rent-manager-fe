@@ -13,9 +13,9 @@ import CreateEditHouse from "../views/CreateEditHouse.vue";
 import BookingsList from "../views/BookingsList.vue";
 import Booking from "../views/Booking.vue";
 import CreateEditBooking from "../views/CreateEditBooking.vue";
-import TasksRegistriesList from "../views/TasksRegistriesList.vue";
-import TaskRegistry from "../views/TaskRegistry.vue";
-import CreateEditTaskRegistry from "../views/CreateEditTaskRegistry.vue";
+import TasksList from "../views/TasksList.vue";
+import Task from "../views/Task.vue";
+import CreateEditTask from "../views/CreateEditTask.vue";
 
 Vue.use(VueRouter);
 
@@ -58,24 +58,24 @@ const routes = [
     component: CreateEditBooking
   },
   {
-    path: "/tasks-registries-list",
-    name: "tasksRegistriesList",
-    component: TasksRegistriesList
+    path: "/tasks-list",
+    name: "tasksList",
+    component: TasksList
   },
   {
-    path: "/tasks-registries/:taskRegistryId",
-    name: "taskRegistry",
-    component: TaskRegistry
+    path: "/tasks/:taskId",
+    name: "task",
+    component: Task
   },
   {
-    path: "/tasks-registries/create",
-    name: "createTaskRegistry",
-    component: CreateEditTaskRegistry
+    path: "/tasks/create",
+    name: "createTask",
+    component: CreateEditTask
   },
   {
-    path: "/tasks-registries/:taskRegistryId/edit",
-    name: "editTaskRegistry",
-    component: CreateEditTaskRegistry
+    path: "/tasks/:taskId/edit",
+    name: "editTask",
+    component: CreateEditTask
   }
 ];
 

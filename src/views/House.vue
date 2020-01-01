@@ -6,8 +6,8 @@
     <h2>Next Tasks</h2>
     <b-table
       striped
-      :items="house.tasksRegistries"
-      :fields="tasksRegistriesFields"
+      :items="house.tasks"
+      :fields="tasksFields"
     ></b-table>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
         "checkInDate",
         "checkOutDate"
       ],
-      tasksRegistriesFields: ["cost", "deadline"],
+      tasksFields: ["cost", "deadline"],
       house: {}
     };
   },

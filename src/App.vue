@@ -8,16 +8,25 @@
               <router-link to="/">Home</router-link>
             </b-nav-item>
             <b-nav-item>
-              <router-link to="/customers">Customers List</router-link>
+              <router-link :to="{ name: 'customersList' }"
+                >Customers List</router-link
+              >
             </b-nav-item>
             <b-nav-item>
-              <router-link to="/houses">Houses List</router-link>
+              <router-link :to="{ name: 'housesList' }"
+                >Houses List</router-link
+              >
             </b-nav-item>
             <b-nav-item>
-              <router-link to="/bookings">Bookings List</router-link>
+              <router-link :to="{ name: 'bookingsList' }"
+                >Bookings List</router-link
+              >
             </b-nav-item>
             <b-nav-item>
-              <router-link to="/tasks">Tasks List</router-link>
+              <router-link :to="{ name: 'tasksList' }">Tasks List</router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link :to="{ name: 'tasksRegistriesList' }">Tasks Registries List</router-link>
             </b-nav-item>
           </b-nav></b-col
         >

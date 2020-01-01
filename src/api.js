@@ -15,40 +15,19 @@ export default {
       return req.data;
     });
   },
-  getCustomers() {
-    return this.execute("get", "/customers");
+  getAll(resource) {
+    return this.execute("get", `/${resource}/`);
   },
-  /* getCustomer (id) {
-    return this.execute('get', `/customers/${id}`)
+  get(resource, id) {
+    return this.execute("get", `/${resource}/${id}`);
   },
-  createCustomer (data) {
-    return this.execute('post', '/customers', data)
+  delete(resource, id) {
+    return this.execute("delete", `/${resource}/${id}`);
   },
-  updateCustomer (id, data) {
-    return this.execute('put', `/customers/${id}`, data)
+  create(resource, data) {
+    return this.execute("post", `/${resource}/`, data);
   },
-  deleteCustomer (id) {
-    return this.execute('delete', `/customers/${id}`)
-  }, */
-  getBookings() {
-    return this.execute("get", "/bookings");
-  },
-  /* getBooking (id) {
-    return this.execute('get', `/bookings/${id}`)
-  },
-  createBooking (data) {
-    return this.execute('post', '/bookings', data)
-  },
-  updateBooking (id, data) {
-    return this.execute('put', `/bookings/${id}`, data)
-  },
-  deleteBooking (id) {
-    return this.execute('delete', `/bookings/${id}`)
-  }, */
-  getHouses() {
-    return this.execute("get", "/houses");
-  },
-  getTasks() {
-    return this.execute("get", "/tasks");
+  update(resource, id, data) {
+    return this.execute("put", `/${resource}/${id}`, data);
   }
 };

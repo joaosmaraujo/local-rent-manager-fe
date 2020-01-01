@@ -4,9 +4,9 @@ import Home from "../views/Home.vue";
 import CustomersList from "../views/CustomersList.vue";
 import Customer from "../views/Customer.vue";
 import CreateEditCustomer from "../views/CreateEditCustomer.vue";
-import TasksList from "../views/TasksList.vue";
-import Task from "../views/Task.vue";
-import CreateEditTask from "../views/CreateEditTask.vue";
+import WorksList from "../views/WorksList.vue";
+import Work from "../views/Work.vue";
+import CreateEditWork from "../views/CreateEditWork.vue";
 import HousesList from "../views/HousesList.vue";
 import House from "../views/House.vue";
 import CreateEditHouse from "../views/CreateEditHouse.vue";
@@ -33,10 +33,10 @@ const routes = [
     name: "editCustomer",
     component: CreateEditCustomer
   },
-  { path: "/tasks-list", name: "tasksList", component: TasksList },
-  { path: "/tasks/:taskId", name: "task", component: Task },
-  { path: "/tasks/create", name: "createTask", component: CreateEditTask },
-  { path: "/tasks/:taskId/edit", name: "editTask", component: CreateEditTask },
+  { path: "/works-list", name: "worksList", component: WorksList },
+  { path: "/works/:workId", name: "work", component: Work },
+  { path: "/works/create", name: "createWork", component: CreateEditWork },
+  { path: "/works/:workId/edit", name: "editWork", component: CreateEditWork },
   { path: "/houses-list", name: "housesList", component: HousesList },
   { path: "/houses/:houseId", name: "house", component: House },
   { path: "/houses/create", name: "createHouse", component: CreateEditHouse },

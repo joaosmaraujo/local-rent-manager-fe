@@ -11,7 +11,7 @@
         ></b-form-select>
       </b-input-group>
       <b-input-group inline>
-        <b-form-select v-model="selectedTask" :options="tasks"></b-form-select>
+        <b-form-select v-model="selectedWork" :options="works"></b-form-select>
       </b-input-group>
       <b-input-group inline>
         <label for="task-cost">Cost: </label>
@@ -38,8 +38,8 @@ export default {
   data() {
     return {
       selectedHouse: {},
-      selectedTask: {},
-      tasks: [],
+      selectedWork: {},
+      works: [],
       houses: [],
       taskRegistry: {}
     };
@@ -49,7 +49,7 @@ export default {
     if ("taskRegistryId" in this.$route.params) {
       this.getTaskRegistry(this.$route.params.taskRegistryId);
     }
-    this.getTasks();
+    this.getWorks();
     this.getHouses();
   },
 
@@ -59,12 +59,12 @@ export default {
         this.$router.push({ name: "tasksRegistriesList" });
       });
     },
-    async getTasks() {
-      this.tasks = await api.getAll("tasks").then(tasks => {
-        return tasks.map(task => {
+    async Works() {
+      this.works = await api.getAll("works").then(works => {
+        return works.map(work => {
           return {
-            value: task,
-            text: task.name
+            value: work,
+            text: work.name
           };
         });
       });

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>{{ taskRegistry.house.label }} - {{ taskRegistry.task.name }}</h1>
-    <p>House: {{ taskRegistry.task.label }}</p>
-    <p>Task: {{ taskRegistry.task.name }}</p>
+    <h1>{{ taskRegistry.house.label }} - {{ taskRegistry.work.name }}</h1>
+    <p>House: {{ taskRegistry.house.label }}</p>
+    <p>Work: {{ taskRegistry.work.name }}</p>
     <p>Cost: {{ taskRegistry.cost }}</p>
     <p>To be done at: {{ taskRegistry.deadline }}</p>
     <p>Completed: {{ taskRegistry.completed }}</p>

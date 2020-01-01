@@ -24,7 +24,7 @@
         >
           <td>{{ taskRegistry._id }}</td>
           <td>{{ taskRegistry.houseId }}</td>
-          <td>{{ taskRegistry.taskId }}</td>
+          <td>{{ taskRegistry.workId }}</td>
           <td>{{ taskRegistry.cost }}</td>
           <td>{{ taskRegistry.deadline }}</td>
           <td>{{ taskRegistry.completed }}</td>

@@ -1,16 +1,18 @@
 import axios from 'axios';
 
 const client = axios.create({
-    baseURL: 'http://localhost:8083/',
+    baseURL: 'http://localhost:8081/',
     json: true
 });
 
 export default {
     async execute(method, resource, data) {
+        const token = localStorage.getItem('token') || '';
         return client({
             method,
             url: resource,
-            data
+            data,
+            headers: { Authorization: token }
         }).then(req => {
             return req.data;
         });

@@ -1,0 +1,35 @@
+{
+    "useTabs": false,
+    "printWidth": 120,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "overrides": [
+        {
+            "files": [
+                ".prettierrc",
+                "package.json"
+            ],
+            "options": {
+                "printWidth": 0,
+                "tabWidth": 2
+            }
+        },
+        {
+            "files": "*.html",
+            "options": {
+                "htmlWhitespaceSensitivity": "strict"
+            }
+        },
+        {
+            "files": [
+                "*.yaml",
+                "*.yml"
+            ],
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
+}
+  

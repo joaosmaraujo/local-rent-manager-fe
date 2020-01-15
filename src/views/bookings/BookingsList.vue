@@ -44,6 +44,11 @@ export default {
         },
         async confirmDeleteBooking(booking) {
             if (confirm(`Are you sure you want to delete ${booking._id}?`)) {
+                await api.delete('bookings', booking._id).then(() => {
+                    this.getBookings();
+                });
+            }
+            if (confirm(`Are you sure you want to delete ${booking._id}?`)) {
                 await api.delete('bookings', booking._id);
             }
         }

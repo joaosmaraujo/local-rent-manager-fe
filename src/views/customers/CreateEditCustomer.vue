@@ -1,7 +1,7 @@
 <template>
     <div>
         <router-link :to="{ name: 'customersList' }">View all customers</router-link>
-        <b-form @submit.prevent="saveCustomer">
+        <b-form>
             <b-input-group inline>
                 <label for="first-name">First Name: </label>
                 <b-input id="first-name" v-model="customer.firstName"></b-input>
@@ -11,7 +11,7 @@
                 <b-input id="last-name" v-model="customer.lastName"></b-input>
             </b-input-group>
             <b-input-group>
-                <b-button>Submit</b-button>
+                <b-button @click.prevent="saveCustomer">Submit</b-button>
                 <router-link :to="{ name: 'customersList' }" tag="b-button">Cancel</router-link>
             </b-input-group>
         </b-form>
@@ -39,9 +39,15 @@ export default {
             this.customer = await api.get('customers', _id);
         },
         saveCustomer() {
-            api.create('customers', this.customer).then(() => {
-                this.$router.push({ name: 'customersList' });
-            });
+            if ('customerId' in this.$route.params) {
+                api.update('customers', this.customer._id, this.customer).then(() => {
+                    this.$router.push({ name: 'customersList' });
+                });
+            } else {
+                api.create('customers', this.customer).then(() => {
+                    this.$router.push({ name: 'customersList' });
+                });
+            }
         }
     }
 };

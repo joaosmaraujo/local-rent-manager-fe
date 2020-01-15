@@ -1,7 +1,7 @@
 <template>
     <div>
         <router-link :to="{ name: 'housesList' }">View all houses</router-link>
-        <b-form @submit.prevent="saveHouse">
+        <b-form>
             <b-input-group inline>
                 <label for="house-label">Label: </label>
                 <b-input id="house-label" v-model="house.label"></b-input>
@@ -11,14 +11,18 @@
                 <b-input id="house-type" v-model="house.type"></b-input>
             </b-input-group>
             <b-input-group inline>
+                <label for="house-city">City: </label>
+                <b-input id="house-city" v-model="house.city"></b-input>
+            </b-input-group>
+            <b-input-group inline>
                 <label for="house-address">Address: </label>
                 <b-input id="house-address" v-model="house.address"></b-input>
             </b-input-group>
             <b-input-group>
-                <b-form-select v-model="selectedOwner" :options="owners"></b-form-select>
+                <b-form-select v-model="house.owner" :options="owners"></b-form-select>
             </b-input-group>
             <b-input-group>
-                <b-button>Submit</b-button>
+                <b-button @click.prevent="saveHouse">Submit</b-button>
                 <router-link :to="{ name: 'housesList' }" tag="b-button">Cancel</router-link>
             </b-input-group>
         </b-form>
@@ -46,9 +50,15 @@ export default {
 
     methods: {
         saveHouse() {
-            api.create('houses', this.house).then(() => {
-                this.$router.push({ name: 'housesList' });
-            });
+            if ('houseId' in this.$route.params) {
+                api.update('houses', this.house._id, this.house).then(() => {
+                    this.$router.push({ name: 'housesList' });
+                });
+            } else {
+                api.create('houses', this.house).then(() => {
+                    this.$router.push({ name: 'housesList' });
+                });
+            }
         },
         async getHouse(_id) {
             this.house = await api.get('houses', _id);

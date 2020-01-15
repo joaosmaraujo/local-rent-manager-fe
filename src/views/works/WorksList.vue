@@ -35,7 +35,9 @@ export default {
         },
         async confirmDeleteWork(work) {
             if (confirm(`Are you sure you want to delete ${work._id}?`)) {
-                await api.delete('works', work._id);
+                await api.delete('works', work._id).then(() => {
+                    this.getWorks();
+                });
             }
         }
     }

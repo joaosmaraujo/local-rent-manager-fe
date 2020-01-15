@@ -14,7 +14,7 @@
                 >
             </template>
             <template v-slot:cell(delete)="row">
-                <b-button @click="confirmDeleteCustomer(row.item)">Delete</b-button>
+                <b-button @click="confirmDeleteHouse(row.item)">Delete</b-button>
             </template>
         </b-table>
     </div>
@@ -24,7 +24,7 @@ import api from '@/api';
 export default {
     data() {
         return {
-            fields: ['address', 'type', 'ownerId', { key: 'edit', label: '' }, { key: 'delete', label: '' }],
+            fields: ['address', 'type', { key: 'owner.lastName', label: 'Owner Last Name' }, { key: 'edit', label: '' }, { key: 'delete', label: '' }],
             houses: []
         };
     },
@@ -37,7 +37,9 @@ export default {
         },
         async confirmDeleteHouse(house) {
             if (confirm(`Are you sure you want to delete ${house.label}?`)) {
-                await api.delete('houses', house._id);
+                await api.delete('houses', house._id).then(() => {
+                    this.getHouses();
+                });
             }
         }
     }

@@ -19,7 +19,7 @@
                         <b-nav-item v-if="isLoggedIn">
                             <router-link :to="{ name: 'housesList' }">Houses List</router-link>
                         </b-nav-item>
-                        <b-nav-item  v-if="isLoggedIn">
+                        <b-nav-item v-if="isLoggedIn">
                             <router-link :to="{ name: 'bookingsList' }">Bookings List</router-link>
                         </b-nav-item>
                         <b-nav-item v-if="isLoggedIn">

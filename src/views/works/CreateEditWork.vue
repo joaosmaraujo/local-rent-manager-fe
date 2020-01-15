@@ -1,7 +1,6 @@
 <template>
     <div>
         <router-link :to="{ name: 'worksList' }">View all works</router-link>
-
         <form class="form" @submit.prevent="saveWork">
             <label for="name" class="label">Name:</label>
             <p class="control">
@@ -46,10 +45,19 @@ export default {
     },
 
     methods: {
+        async getWork(_id) {
+            this.work = await api.get('works', _id);
+        },
         saveWork() {
-            api.create('works', this.work).then(() => {
-                this.$router.push({ name: 'worksList' });
-            });
+            if ('workId' in this.$route.params) {
+                api.update('works', this.work._id, this.work).then(() => {
+                    this.$router.push({ name: 'worksList' });
+                });
+            } else {
+                api.create('works', this.work).then(() => {
+                    this.$router.push({ name: 'worksList' });
+                });
+            }
         }
     }
 };

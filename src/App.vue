@@ -1,49 +1,67 @@
 <template>
-    <div id="app">
-        <b-container id="nav">
-            <b-row>
-                <b-col cols="3">
-                    <b-nav vertical>
-                        <b-nav-item v-if="isLoggedIn">
-                            <router-link to="/">Home</router-link>
-                        </b-nav-item>
-                        <b-nav-item v-if="!isLoggedIn">
-                            <router-link to="/login">Login</router-link>
-                        </b-nav-item>
-                        <b-nav-item v-if="!isLoggedIn">
-                            <router-link to="/register">Register</router-link>
-                        </b-nav-item>
-                        <b-nav-item v-if="isLoggedIn">
-                            <router-link :to="{ name: 'customersList' }">Customers List</router-link>
-                        </b-nav-item>
-                        <b-nav-item v-if="isLoggedIn">
-                            <router-link :to="{ name: 'housesList' }">Houses List</router-link>
-                        </b-nav-item>
-                        <b-nav-item v-if="isLoggedIn">
-                            <router-link :to="{ name: 'bookingsList' }">Bookings List</router-link>
-                        </b-nav-item>
-                        <b-nav-item v-if="isLoggedIn">
-                            <router-link :to="{ name: 'worksList' }">Works List</router-link>
-                        </b-nav-item>
-                        <b-nav-item v-if="isLoggedIn">
-                            <router-link :to="{ name: 'tasksList' }">Tasks List</router-link>
-                        </b-nav-item>
-                        <b-nav-item v-if="isLoggedIn">
-                            <a to="/logout" @click.prevent="logoutUser">Logout</a>
-                        </b-nav-item>
-                        <b-nav-item>
-                            <router-link to="/about">About</router-link>
-                        </b-nav-item>
-                    </b-nav></b-col
-                >
-                <b-col cols="9"><router-view /></b-col>
-            </b-row>
-        </b-container>
-    </div>
+    <v-app>
+        <v-navigation-drawer
+            v-model="drawer"
+            :color="color"
+            :expand-on-hover="expandOnHover"
+            :mini-variant="miniVariant"
+            :right="right"
+            dark
+            app
+        >
+            <v-list dense>
+                <v-list-item two-line>
+                    <v-list-item-avatar>
+                        <img src="https://randomuser.me/api/portraits/men/81.jpg" />
+                    </v-list-item-avatar>
+
+                    <v-list-item-content>
+                        <v-list-item-title>Local Rent Manager</v-list-item-title>
+                        <v-list-item-subtitle>João Araújo</v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-divider></v-divider>
+                <v-list-item v-for="item in items" :key="item.title" :to="item.path" link>
+                    <v-list-item-action>
+                        <v-icon>{{ item.action }}</v-icon>
+                    </v-list-item-action>
+
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+        </v-navigation-drawer>
+        <v-content>
+            <!-- Provides the application the proper gutter -->
+            <v-container fluid>
+                <!-- If using vue-router -->
+                <router-view></router-view>
+            </v-container>
+        </v-content>
+    </v-app>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex';
 export default {
+    data() {
+        return {
+            drawer: true,
+            items: [
+                { title: 'Dashboard', action: 'mdi-view-dashboard', path: '/' },
+                { title: 'Customers', action: 'mdi-account', path: '/customers-list' },
+                { title: 'Houses', action: 'mdi-home-variant-outline', path: 'houses-list' },
+                { title: 'Bookings', action: 'mdi-account-card-details', path: 'bookings-list' },
+                { title: 'Tasks', action: 'mdi-clipboard-check-multiple-outline', path: 'tasks-list' },
+                { title: 'Works', action: 'mdi-tools', path: 'works-list' }
+            ],
+            color: 'primary',
+            right: false,
+            miniVariant: false,
+            expandOnHover: false,
+            background: false
+        };
+    },
     computed: {
         ...mapGetters(['isLoggedIn'])
     },

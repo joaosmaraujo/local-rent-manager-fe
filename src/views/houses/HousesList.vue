@@ -88,7 +88,6 @@ export default {
             ],
             houses: [],
             owners: [],
-            editedIndex: -1,
             editedItem: {
                 label: '',
                 owner: '',
@@ -108,7 +107,7 @@ export default {
     },
     computed: {
         formTitle() {
-            return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
+            return !this.editedItem._id ? 'New Item' : 'Edit Item';
         }
     },
     watch: {
@@ -130,10 +129,8 @@ export default {
         },
 
         editHouse(item) {
-            console.log(item);
-            /* this.editedIndex = this.tasks.indexOf(item);
             this.editedItem = Object.assign({}, item);
-            this.dialog = true; */
+            this.dialog = true;
         },
 
         async deleteHouse(item) {
@@ -148,17 +145,21 @@ export default {
             this.dialog = false;
             setTimeout(() => {
                 this.editedItem = Object.assign({}, this.defaultItem);
-                this.editedIndex = -1;
             }, 300);
         },
 
         save() {
-            /* if (this.editedIndex > -1) {
-                Object.assign(this.desserts[this.editedIndex], this.editedItem);
+            if (this.editedItem._id) {
+                api.update('houses', this.editedItem._id, this.editedItem).then(() => {
+                    this.getHouses();
+                    this.close();
+                });
             } else {
-                this.desserts.push(this.editedItem);
+                api.create('houses', this.editedItem).then(() => {
+                    this.getHouses();
+                    this.close();
+                });
             }
-            this.close(); */
         }
     }
 };

@@ -96,12 +96,6 @@ export default {
         return {
             dialog: false,
             headers: [
-                {
-                    text: 'Id',
-                    align: 'left',
-                    sortable: false,
-                    value: '_id'
-                },
                 { text: 'House', value: 'house.label' },
                 { text: 'Work', value: 'work.name' },
                 { text: 'Cost', value: 'cost' },
@@ -112,7 +106,6 @@ export default {
             houses: [],
             works: [],
             tasks: [],
-            editedIndex: -1,
             editedItem: {
                 house: '',
                 work: '',
@@ -132,7 +125,7 @@ export default {
     },
     computed: {
         formTitle() {
-            return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
+            return !this.editedItem._id ? 'New Item' : 'Edit Item';
         }
     },
 
@@ -160,10 +153,8 @@ export default {
         },
 
         editTask(item) {
-            console.log(item);
-            /* this.editedIndex = this.tasks.indexOf(item);
             this.editedItem = Object.assign({}, item);
-            this.dialog = true; */
+            this.dialog = true;
         },
 
         async deleteTask(item) {
@@ -178,17 +169,21 @@ export default {
             this.dialog = false;
             setTimeout(() => {
                 this.editedItem = Object.assign({}, this.defaultItem);
-                this.editedIndex = -1;
             }, 300);
         },
 
         save() {
-            /* if (this.editedIndex > -1) {
-                Object.assign(this.desserts[this.editedIndex], this.editedItem);
+            if (this.editedItem._id) {
+                api.update('tasks', this.editedItem._id, this.editedItem).then(() => {
+                    this.getTasks();
+                    this.close();
+                });
             } else {
-                this.desserts.push(this.editedItem);
+                api.create('tasks', this.editedItem).then(() => {
+                    this.getTasks();
+                    this.close();
+                });
             }
-            this.close(); */
         }
     }
 };

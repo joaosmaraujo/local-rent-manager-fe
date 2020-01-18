@@ -58,7 +58,7 @@ export default {
                     this.$router.push({ name: 'bookingsList' });
                 });
             }
-            
+
         },
         async getBooking(_id) {
             this.booking = await api.get('bookings', _id);

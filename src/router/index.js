@@ -6,7 +6,6 @@ import Register from '../views/Register.vue';
 import About from '../views/About.vue';
 import CustomersList from '../views/customers/CustomersList.vue';
 import Customer from '../views/customers/Customer.vue';
-import CreateEditCustomer from '../views/customers/CreateEditCustomer.vue';
 import WorksList from '../views/works/WorksList.vue';
 import Work from '../views/works/Work.vue';
 import CreateEditWork from '../views/works/CreateEditWork.vue';
@@ -30,18 +29,6 @@ const routes = [
     { path: '/login', name: 'login', component: Login, meta: { requiresGuest: true } },
     { path: '/customers-list', name: 'customersList', component: CustomersList, meta: { requiresAuth: true } },
     { path: '/customers/:customerId', name: 'customer', component: Customer, meta: { requiresAuth: true } },
-    {
-        path: '/customers/create',
-        name: 'createCustomer',
-        component: CreateEditCustomer,
-        meta: { requiresAuth: true }
-    },
-    {
-        path: '/customers/:customerId/edit',
-        name: 'editCustomer',
-        component: CreateEditCustomer,
-        meta: { requiresAuth: true }
-    },
     { path: '/works-list', name: 'worksList', component: WorksList, meta: { requiresAuth: true } },
     { path: '/works/:workId', name: 'work', component: Work, meta: { requiresAuth: true } },
     { path: '/works/create', name: 'createWork', component: CreateEditWork, meta: { requiresAuth: true } },

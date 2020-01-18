@@ -8,6 +8,7 @@
             :right="right"
             dark
             app
+            permanent
         >
             <v-list dense>
                 <v-list-item two-line>

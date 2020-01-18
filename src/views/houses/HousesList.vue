@@ -58,6 +58,9 @@
                 </v-toolbar>
             </template>
             <template v-slot:item.action="{ item }">
+                <v-icon small class="mr-2" @click="open(item)">
+                    {{ actions.open }}
+                </v-icon>
                 <v-icon small class="mr-2" @click="editHouse(item)">
                     {{ actions.edit }}
                 </v-icon>
@@ -102,7 +105,7 @@ export default {
                 address: '',
                 city: ''
             },
-            actions: { edit: 'mdi-pencil', delete: 'mdi-delete' }
+            actions: { open: 'mdi-open-in-app', edit: 'mdi-pencil', delete: 'mdi-delete' }
         };
     },
     computed: {
@@ -126,6 +129,10 @@ export default {
 
         async getOwners() {
             this.owners = await api.getAll('customers');
+        },
+
+        open(item) {
+            this.$router.push({ name: 'house', params: { houseId: item._id } });
         },
 
         editHouse(item) {

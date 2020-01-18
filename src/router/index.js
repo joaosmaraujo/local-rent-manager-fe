@@ -7,13 +7,10 @@ import About from '../views/About.vue';
 import CustomersList from '../views/customers/CustomersList.vue';
 import Customer from '../views/customers/Customer.vue';
 import WorksList from '../views/works/WorksList.vue';
-import Work from '../views/works/Work.vue';
 import HousesList from '../views/houses/HousesList.vue';
 import House from '../views/houses/House.vue';
 import BookingsList from '../views/bookings/BookingsList.vue';
-import Booking from '../views/bookings/Booking.vue';
 import TasksList from '../views/tasks/TasksList.vue';
-import Task from '../views/tasks/Task.vue';
 import store from '../store.js';
 
 Vue.use(VueRouter);
@@ -26,23 +23,10 @@ const routes = [
     { path: '/customers-list', name: 'customersList', component: CustomersList, meta: { requiresAuth: true } },
     { path: '/customers/:customerId', name: 'customer', component: Customer, meta: { requiresAuth: true } },
     { path: '/works-list', name: 'worksList', component: WorksList, meta: { requiresAuth: true } },
-    { path: '/works/:workId', name: 'work', component: Work, meta: { requiresAuth: true } },
     { path: '/houses-list', name: 'housesList', component: HousesList, meta: { requiresAuth: true } },
     { path: '/houses/:houseId', name: 'house', component: House, meta: { requiresAuth: true } },
     { path: '/bookings-list', name: 'bookingsList', component: BookingsList, meta: { requiresAuth: true } },
-    { path: '/bookings/:bookingId', name: 'booking', component: Booking, meta: { requiresAuth: true } },
-    {
-        path: '/tasks-list',
-        name: 'tasksList',
-        component: TasksList,
-        meta: { requiresAuth: true }
-    },
-    {
-        path: '/tasks/:taskId',
-        name: 'task',
-        component: Task,
-        meta: { requiresAuth: true }
-    }
+    { path: '/tasks-list', name: 'tasksList', component: TasksList, meta: { requiresAuth: true } },
 ];
 
 const router = new VueRouter({

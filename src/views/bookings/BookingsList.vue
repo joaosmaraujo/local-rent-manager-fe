@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-data-table :headers="headers" :items="bookings" sort-by="label" class="elevation-2">
+        <v-data-table :headers="headers" :items="bookings" sort-by="label" class="elevation-1">
             <template v-slot:top>
                 <v-toolbar flat color="white">
                     <v-toolbar-title>Bookings List</v-toolbar-title>
@@ -100,7 +100,6 @@ export default {
             ],
             houses: [],
             bookings: [],
-            editedIndex: -1,
             editedItem: {
                 house: '',
                 guestFirstName: '',
@@ -121,7 +120,7 @@ export default {
 
     computed: {
         formTitle() {
-            return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
+            return !this.editedItem._id ? 'New Item' : 'Edit Item';
         }
     },
 
@@ -145,10 +144,8 @@ export default {
         },
 
         editBooking(item) {
-            console.log(item);
-            /* this.editedIndex = this.tasks.indexOf(item);
             this.editedItem = Object.assign({}, item);
-            this.dialog = true; */
+            this.dialog = true;
         },
 
         async deleteBooking(item) {
@@ -163,17 +160,21 @@ export default {
             this.dialog = false;
             setTimeout(() => {
                 this.editedItem = Object.assign({}, this.defaultItem);
-                this.editedIndex = -1;
             }, 300);
         },
 
         save() {
-            /* if (this.editedIndex > -1) {
-                Object.assign(this.desserts[this.editedIndex], this.editedItem);
+            if (this.editedItem._id) {
+                api.update('bookings', this.editedItem._id, this.editedItem).then(() => {
+                    this.getBookings();
+                    this.close();
+                });
             } else {
-                this.desserts.push(this.editedItem);
+                api.create('bookings', this.editedItem).then(() => {
+                    this.getBookings();
+                    this.close();
+                });
             }
-            this.close(); */
         }
     }
 };

@@ -45,6 +45,9 @@
                 </v-toolbar>
             </template>
             <template v-slot:item.action="{ item }">
+                <v-icon small class="mr-2" @click="open(item)">
+                    {{ actions.open }}
+                </v-icon>
                 <v-icon small class="mr-2" @click="editCustomer(item)">
                     {{ actions.edit }}
                 </v-icon>
@@ -75,12 +78,12 @@ export default {
                 firstName: '',
                 lastName: ''
             },
-            actions: { edit: 'mdi-pencil', delete: 'mdi-delete' }
+            actions: { open: 'mdi-open-in-app', edit: 'mdi-pencil', delete: 'mdi-delete' }
         };
     },
     computed: {
         formTitle() {
-            return this.editedItem._id ? 'New Item' : 'Edit Item';
+            return !this.editedItem._id ? 'New Item' : 'Edit Item';
         }
     },
 
@@ -90,6 +93,10 @@ export default {
     methods: {
         async getCustomers() {
             this.customers = await api.getAll('customers');
+        },
+
+        open(item) {
+            this.$router.push({ name: 'customer', params: { customerId: item._id } });
         },
 
         editCustomer(item) {

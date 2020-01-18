@@ -49,12 +49,12 @@ export default {
         return {
             drawer: true,
             items: [
-                { title: 'Dashboard', action: 'mdi-view-dashboard', path: '/' },
-                { title: 'Customers', action: 'mdi-account', path: '/customers-list' },
-                { title: 'Houses', action: 'mdi-home-variant-outline', path: 'houses-list' },
-                { title: 'Bookings', action: 'mdi-account-card-details', path: 'bookings-list' },
-                { title: 'Tasks', action: 'mdi-clipboard-check-multiple-outline', path: 'tasks-list' },
-                { title: 'Works', action: 'mdi-tools', path: 'works-list' }
+                { title: 'Dashboard', action: 'mdi-view-dashboard', path: { name: 'home' } },
+                { title: 'Customers', action: 'mdi-account', path: { name: 'customersList' } },
+                { title: 'Houses', action: 'mdi-home-variant-outline', path: { name: 'housesList' } },
+                { title: 'Bookings', action: 'mdi-account-card-details', path: { name:'bookingsList' } },
+                { title: 'Tasks', action: 'mdi-clipboard-check-multiple-outline', path: { name:'tasksList' } },
+                { title: 'Works', action: 'mdi-tools', path: { name: 'worksList' } }
             ],
             color: 'primary',
             right: false,

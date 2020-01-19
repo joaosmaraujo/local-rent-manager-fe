@@ -5,10 +5,24 @@
         <h3>Tasks: {{ house.tasks && house.tasks.length }}</h3>
         <v-row>
             <v-col cols="12">
-                <v-data-table :headers="bookingsHeaders" :items="house.bookings" sort-by="label" class="elevation-1">
+                <v-data-table
+                    :headers="bookingsHeaders"
+                    :items="house.bookings"
+                    :search="searchBooking"
+                    sort-by="label"
+                    class="elevation-5"
+                >
                     <template v-slot:top>
                         <v-toolbar flat color="white">
                             <v-toolbar-title>Bookings</v-toolbar-title>
+                            <v-spacer></v-spacer>
+                            <v-text-field
+                                v-model="searchBooking"
+                                append-icon="mdi-search"
+                                label="Search"
+                                single-line
+                                hide-details
+                            ></v-text-field>
                             <v-spacer></v-spacer>
                             <v-dialog v-model="bookingDialog" max-width="500px">
                                 <template v-slot:activator="{ on }">
@@ -116,10 +130,24 @@
         </v-row>
         <v-row>
             <v-col cols="12">
-                <v-data-table :headers="tasksHeaders" :items="house.tasks" sort-by="label" class="elevation-1">
+                <v-data-table
+                    :headers="tasksHeaders"
+                    :items="house.tasks"
+                    :search="searchTask"
+                    sort-by="label"
+                    class="elevation-5"
+                >
                     <template v-slot:top>
                         <v-toolbar flat color="white">
                             <v-toolbar-title>Tasks</v-toolbar-title>
+                            <v-spacer></v-spacer>
+                            <v-text-field
+                                v-model="searchTask"
+                                append-icon="mdi-search"
+                                label="Search"
+                                single-line
+                                hide-details
+                            ></v-text-field>
                             <v-spacer></v-spacer>
                             <v-dialog v-model="taskDialog" max-width="500px">
                                 <template v-slot:activator="{ on }">
@@ -226,6 +254,8 @@ export default {
             menuCheckInDate: false,
             menuCheckOutDate: false,
             menuDeadline: false,
+            searchBooking: '',
+            searchTask: '',
             bookingsHeaders: [
                 { text: 'Guest First Name', value: 'guestFirstName' },
                 { text: 'Guest Last Name', value: 'guestLastName' },

@@ -1,9 +1,17 @@
 <template>
     <div>
-        <v-data-table :headers="headers" :items="customers" sort-by="label" class="elevation-1">
+        <v-data-table :headers="headers" :items="customers" :search="search" sort-by="firstName" class="elevation-5">
             <template v-slot:top>
                 <v-toolbar flat color="white">
                     <v-toolbar-title>Customers List</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-text-field
+                        v-model="search"
+                        append-icon="mdi-search"
+                        label="Search"
+                        single-line
+                        hide-details
+                    ></v-text-field>
                     <v-spacer></v-spacer>
                     <v-dialog v-model="dialog" max-width="500px">
                         <template v-slot:activator="{ on }">
@@ -64,6 +72,7 @@ export default {
     data() {
         return {
             dialog: false,
+            search: '',
             headers: [
                 { text: 'First Name', value: 'firstName' },
                 { text: 'Last Name', value: 'lastName' },

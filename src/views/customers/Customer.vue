@@ -2,10 +2,18 @@
     <div>
         <h1>{{ customer.lastName }}, {{ customer.firstName }}</h1>
         <h3>Houses: {{ customer.houses && customer.houses.length }}</h3>
-        <v-data-table :headers="headers" :items="customer.houses" sort-by="label" class="elevation-1">
+        <v-data-table :headers="headers" :items="customer.houses" :search="search" sort-by="label" class="elevation-5">
             <template v-slot:top>
                 <v-toolbar flat color="white">
                     <v-toolbar-title>Customer Houses</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-text-field
+                        v-model="search"
+                        append-icon="mdi-search"
+                        label="Search"
+                        single-line
+                        hide-details
+                    ></v-text-field>
                     <v-spacer></v-spacer>
                     <v-dialog v-model="dialog" max-width="500px">
                         <template v-slot:activator="{ on }">
@@ -69,6 +77,7 @@ export default {
     data() {
         return {
             dialog: false,
+            search: '',
             headers: [
                 {
                     text: 'Label',

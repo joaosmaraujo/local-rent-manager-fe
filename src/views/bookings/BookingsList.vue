@@ -1,9 +1,17 @@
 <template>
     <div>
-        <v-data-table :headers="headers" :items="bookings" sort-by="label" class="elevation-1">
+        <v-data-table :headers="headers" :items="bookings" :search="search" sort-by="checkInDate" class="elevation-5">
             <template v-slot:top>
                 <v-toolbar flat color="white">
                     <v-toolbar-title>Bookings List</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-text-field
+                        v-model="search"
+                        append-icon="mdi-search"
+                        label="Search"
+                        single-line
+                        hide-details
+                    ></v-text-field>
                     <v-spacer></v-spacer>
                     <v-dialog v-model="dialog" max-width="500px">
                         <template v-slot:activator="{ on }">
@@ -127,6 +135,7 @@ export default {
     data() {
         return {
             dialog: false,
+            search: '',
             menuCheckInDate: false,
             menuCheckOutDate: false,
             headers: [

@@ -48,13 +48,28 @@
                                             ></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
-                                            <v-text-field
-                                                v-model="editedItem.deadline"
-                                                label="Deadline"
-                                                prepend-icon="mdi-event"
-                                                type="date"
-                                                dense
-                                            ></v-text-field>
+                                            <v-menu
+                                                v-model="menu"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                transition="scale-transition"
+                                                offset-y
+                                                min-width="290px"
+                                            >
+                                                <template v-slot:activator="{ on }">
+                                                    <v-text-field
+                                                        v-model="editedItem.deadline"
+                                                        label="Deadline"
+                                                        prepend-icon="mdi-calendar"
+                                                        readonly
+                                                        v-on="on"
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-date-picker
+                                                    v-model="editedItem.deadline"
+                                                    @input="menu = false"
+                                                ></v-date-picker>
+                                            </v-menu>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
                                             <v-select
@@ -72,18 +87,27 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                                <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                                <v-btn color="blue darken-1" text @click="saveTask(editedItem)">Save</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
                 </v-toolbar>
             </template>
+            <template v-slot:item.deadline="{ item }">
+                <span>{{ item.deadline | formatDate }}</span>
+            </template>
             <template v-slot:item.action="{ item }">
                 <v-icon small class="mr-2" @click="editTask(item)">
                     {{ actions.edit }}
                 </v-icon>
-                <v-icon small @click="deleteTask(item)">
+                <v-icon small class="mr-2" @click="deleteTask(item)">
                     {{ actions.delete }}
+                </v-icon>
+                <v-icon small :color="'green'" class="mr-2" @click="completeTask(item)" v-if="!item.completed">
+                    {{ actions.check }}
+                </v-icon>
+                <v-icon small :color="'red'" class="mr-2" @click="uncompleteTask(item)" v-if="item.completed">
+                    {{ actions.uncheck }}
                 </v-icon>
             </template>
         </v-data-table>
@@ -94,6 +118,7 @@ import api from '@/api';
 export default {
     data() {
         return {
+            menu: false,
             dialog: false,
             headers: [
                 { text: 'House', value: 'house.label' },
@@ -120,7 +145,7 @@ export default {
                 deadline: '',
                 completed: false
             },
-            actions: { edit: 'mdi-pencil', delete: 'mdi-delete' }
+            actions: { edit: 'mdi-pencil', delete: 'mdi-delete', check: 'mdi-check-bold', uncheck: 'mdi-close-circle' }
         };
     },
     computed: {
@@ -153,7 +178,9 @@ export default {
         },
 
         editTask(item) {
-            this.editedItem = Object.assign({}, item);
+            this.editedItem = Object.assign({}, item, {
+                deadline: new Date(item.deadline).toISOString().substr(0, 10)
+            });
             this.dialog = true;
         },
 
@@ -165,6 +192,16 @@ export default {
             }
         },
 
+        async completeTask(item) {
+            item.completed = true;
+            this.saveTask(item);
+        },
+
+        async uncompleteTask(item) {
+            item.completed = false;
+            this.saveTask(item);
+        },
+
         close() {
             this.dialog = false;
             setTimeout(() => {
@@ -172,14 +209,14 @@ export default {
             }, 300);
         },
 
-        save() {
-            if (this.editedItem._id) {
-                api.update('tasks', this.editedItem._id, this.editedItem).then(() => {
+        saveTask(editedItem) {
+            if (editedItem._id) {
+                api.update('tasks', editedItem._id, editedItem).then(() => {
                     this.getTasks();
                     this.close();
                 });
             } else {
-                api.create('tasks', this.editedItem).then(() => {
+                api.create('tasks', editedItem).then(() => {
                     this.getTasks();
                     this.close();
                 });

@@ -17,6 +17,12 @@ if (token) {
     Vue.prototype.$http.defaults.headers.common['Authorization'] = token;
 }
 
+Vue.filter('formatDate', function(value) {
+    if (value) {
+        return new Date(value).toISOString().substr(0, 10);
+    }
+});
+
 new Vue({
     router,
     store,

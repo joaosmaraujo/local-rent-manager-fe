@@ -37,22 +37,52 @@
                                                     ></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field
-                                                        v-model="editedBooking.checkInDate"
-                                                        type="date"
-                                                        prepend-icon="mdi-event"
-                                                        label="Check-in"
-                                                        dense
-                                                    ></v-text-field>
+                                                    <v-menu
+                                                        v-model="menuCheckInDate"
+                                                        :close-on-content-click="false"
+                                                        :nudge-right="40"
+                                                        transition="scale-transition"
+                                                        offset-y
+                                                        min-width="290px"
+                                                    >
+                                                        <template v-slot:activator="{ on }">
+                                                            <v-text-field
+                                                                v-model="editedBooking.checkInDate"
+                                                                label="Check-in"
+                                                                prepend-icon="mdi-calendar"
+                                                                readonly
+                                                                v-on="on"
+                                                            ></v-text-field>
+                                                        </template>
+                                                        <v-date-picker
+                                                            v-model="editedBooking.checkInDate"
+                                                            @input="menuCheckInDate = false"
+                                                        ></v-date-picker>
+                                                    </v-menu>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field
-                                                        v-model="editedBooking.checkOutDate"
-                                                        type="date"
-                                                        label="Check-out"
-                                                        prepend-icon="mdi-event"
-                                                        dense
-                                                    ></v-text-field>
+                                                    <v-menu
+                                                        v-model="menuCheckOutDate"
+                                                        :close-on-content-click="false"
+                                                        :nudge-right="40"
+                                                        transition="scale-transition"
+                                                        offset-y
+                                                        min-width="290px"
+                                                    >
+                                                        <template v-slot:activator="{ on }">
+                                                            <v-text-field
+                                                                v-model="editedBooking.checkOutDate"
+                                                                label="Check-in"
+                                                                prepend-icon="mdi-calendar"
+                                                                readonly
+                                                                v-on="on"
+                                                            ></v-text-field>
+                                                        </template>
+                                                        <v-date-picker
+                                                            v-model="editedBooking.checkOutDate"
+                                                            @input="menuCheckOutDate = false"
+                                                        ></v-date-picker>
+                                                    </v-menu>
                                                 </v-col>
                                             </v-row>
                                         </v-container>
@@ -66,6 +96,12 @@
                                 </v-card>
                             </v-dialog>
                         </v-toolbar>
+                    </template>
+                    <template v-slot:item.checkInDate="{ item }">
+                        <span>{{ item.checkInDate | formatDate }}</span>
+                    </template>
+                    <template v-slot:item.checkOutDate="{ item }">
+                        <span>{{ item.checkOutDate | formatDate }}</span>
                     </template>
                     <template v-slot:item.action="{ item }">
                         <v-icon small class="mr-2" @click="editBooking(item)">
@@ -117,13 +153,28 @@
                                                     ></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field
-                                                        type="date"
-                                                        v-model="editedTask.deadline"
-                                                        label="Deadline"
-                                                        prepend-icon="mdi-event"
-                                                        dense
-                                                    ></v-text-field>
+                                                    <v-menu
+                                                        v-model="menuDeadline"
+                                                        :close-on-content-click="false"
+                                                        :nudge-right="40"
+                                                        transition="scale-transition"
+                                                        offset-y
+                                                        min-width="290px"
+                                                    >
+                                                        <template v-slot:activator="{ on }">
+                                                            <v-text-field
+                                                                v-model="editedTask.deadline"
+                                                                label="Deadline"
+                                                                prepend-icon="mdi-calendar"
+                                                                readonly
+                                                                v-on="on"
+                                                            ></v-text-field>
+                                                        </template>
+                                                        <v-date-picker
+                                                            v-model="editedTask.deadline"
+                                                            @input="menu = false"
+                                                        ></v-date-picker>
+                                                    </v-menu>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
                                                     <v-select
@@ -147,6 +198,9 @@
                             </v-dialog>
                         </v-toolbar>
                     </template>
+                    <template v-slot:item.deadline="{ item }">
+                        <span>{{ item.deadline | formatDate }}</span>
+                    </template>
                     <template v-slot:item.action="{ item }">
                         <v-icon small class="mr-2" @click="editTask(item)">
                             {{ actions.edit }}
@@ -169,6 +223,9 @@ export default {
         return {
             house: {},
             bookingDialog: false,
+            menuCheckInDate: false,
+            menuCheckOutDate: false,
+            menuDeadline: false,
             bookingsHeaders: [
                 { text: 'Guest First Name', value: 'guestFirstName' },
                 { text: 'Guest Last Name', value: 'guestLastName' },
@@ -248,7 +305,12 @@ export default {
         },
 
         editBooking(item) {
-            this.editedBooking = Object.assign({}, item);
+            this.editedBooking = Object.assign(
+                {},
+                item,
+                { checkInDate: new Date(item.checkInDate).toISOString().substr(0, 10) },
+                { checkOutDate: new Date(item.checkOutDate).toISOString().substr(0, 10) }
+            );
             this.bookingDialog = true;
         },
 
@@ -288,7 +350,9 @@ export default {
         },
 
         editTask(item) {
-            this.editedTask = Object.assign({}, item);
+            this.editedTask = Object.assign({}, item, {
+                deadline: new Date(item.deadline).toISOString().substr(0, 10)
+            });
             this.taskDialog = true;
         },
 

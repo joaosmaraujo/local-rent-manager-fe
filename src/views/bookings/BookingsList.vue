@@ -42,23 +42,54 @@
                                                 dense
                                             ></v-text-field>
                                         </v-col>
+
                                         <v-col cols="12" sm="6" md="4">
-                                            <v-text-field
-                                                v-model="editedItem.checkInDate"
-                                                label="Check-in"
-                                                prepend-icon="mdi-event"
-                                                type="date"
-                                                dense
-                                            ></v-text-field>
+                                            <v-menu
+                                                v-model="menuCheckInDate"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                transition="scale-transition"
+                                                offset-y
+                                                min-width="290px"
+                                            >
+                                                <template v-slot:activator="{ on }">
+                                                    <v-text-field
+                                                        v-model="editedItem.checkInDate"
+                                                        label="Check-in"
+                                                        prepend-icon="mdi-calendar"
+                                                        readonly
+                                                        v-on="on"
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-date-picker
+                                                    v-model="editedItem.checkInDate"
+                                                    @input="menuCheckInDate = false"
+                                                ></v-date-picker>
+                                            </v-menu>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
-                                            <v-text-field
-                                                v-model="editedItem.checkOutDate"
-                                                label="Check-out"
-                                                prepend-icon="mdi-event"
-                                                type="date"
-                                                dense
-                                            ></v-text-field>
+                                            <v-menu
+                                                v-model="menuCheckOutDate"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                transition="scale-transition"
+                                                offset-y
+                                                min-width="290px"
+                                            >
+                                                <template v-slot:activator="{ on }">
+                                                    <v-text-field
+                                                        v-model="editedItem.checkOutDate"
+                                                        label="Check-in"
+                                                        prepend-icon="mdi-calendar"
+                                                        readonly
+                                                        v-on="on"
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-date-picker
+                                                    v-model="editedItem.checkOutDate"
+                                                    @input="menuCheckOutDate = false"
+                                                ></v-date-picker>
+                                            </v-menu>
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -72,6 +103,12 @@
                         </v-card>
                     </v-dialog>
                 </v-toolbar>
+            </template>
+            <template v-slot:item.checkInDate="{ item }">
+                <span>{{ item.checkInDate | formatDate }}</span>
+            </template>
+            <template v-slot:item.checkOutDate="{ item }">
+                <span>{{ item.checkOutDate | formatDate }}</span>
             </template>
             <template v-slot:item.action="{ item }">
                 <v-icon small class="mr-2" @click="editBooking(item)">
@@ -90,6 +127,8 @@ export default {
     data() {
         return {
             dialog: false,
+            menuCheckInDate: false,
+            menuCheckOutDate: false,
             headers: [
                 { text: 'House', value: 'house.label' },
                 { text: 'Guest First Name', value: 'guestFirstName' },
@@ -144,14 +183,19 @@ export default {
         },
 
         editBooking(item) {
-            this.editedItem = Object.assign({}, item);
+            this.editedItem = Object.assign(
+                {},
+                item,
+                { checkInDate: new Date(item.checkInDate).toISOString().substr(0, 10) },
+                { checkOutDate: new Date(item.checkOutDate).toISOString().substr(0, 10) }
+            );
             this.dialog = true;
         },
 
         async deleteBooking(item) {
             if (confirm(`Are you sure you want to delete ${item._id}?`)) {
-                await api.delete('tasks', item._id).then(() => {
-                    this.getTasks();
+                await api.delete('bookings', item._id).then(() => {
+                    this.getBookings();
                 });
             }
         },

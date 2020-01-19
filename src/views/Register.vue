@@ -1,36 +1,46 @@
 <template>
     <div>
-        <h2>Register</h2>
-        <b-form @click.prevent="registerUser">
-            <b-form-group inline>
-                <label for="first-name" class="label">First Name:</label>
-                <b-form-input id="first-name" type="text" v-model="firstName"></b-form-input>
-            </b-form-group>
-            <b-form-group inline>
-                <label for="last-name" class="label">Last Name:</label>
-                <b-form-input id="last-name" type="text" v-model="lastName"></b-form-input>
-            </b-form-group>
-            <b-form-group inline>
-                <label for="username">Username: </label>
-                <b-form-input id="username" type="text" v-model="username"></b-form-input>
-            </b-form-group>
-            <b-form-group inline>
-                <label for="email" class="label">E-mail:</label>
-                <b-form-input id="email" type="email" v-model="email"></b-form-input>
-            </b-form-group>
-            <b-form-group inline>
-                <label for="password">Password: </label>
-                <b-form-input id="password" type="password" v-model="password"></b-form-input>
-            </b-form-group>
-            <b-form-group inline>
-                <label for="confirm-password">Confirm Password: </label>
-                <b-form-input id="confirm-password" type="password" v-model="confirm_password"></b-form-input>
-            </b-form-group>
-            <b-form-group>
-                <b-button style="margin-right: 10px;">Submit</b-button>
-                <router-link to="/login" tag="b-button">Already have an account?</router-link>
-            </b-form-group>
-        </b-form>
+        <v-card>
+            <v-card-title>
+                <span class="headline">Register</span>
+            </v-card-title>
+
+            <v-card-text>
+                <v-container>
+                    <v-row>
+                        <v-col cols="12" sm="6" md="4">
+                            <v-text-field v-model="firstName" label="First Name" dense></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                            <v-text-field v-model="lastName" label="Last Name" dense></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                            <v-text-field v-model="email" label="E-mail" type="email" dense></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                            <v-text-field v-model="username" label="Username" dense></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                            <v-text-field v-model="password" label="Password" type="password" dense></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                            <v-text-field
+                                v-model="confirm_password"
+                                label="Confirm Password"
+                                type="password"
+                                dense
+                            ></v-text-field>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="registerUser">Register</v-btn>
+                <v-btn color="blue darken-1" text @click="redirectToLogin">Already have an account?</v-btn>
+            </v-card-actions>
+        </v-card>
     </div>
 </template>
 
@@ -64,6 +74,9 @@ export default {
                     this.$router.push({ name: 'login' });
                 }
             });
+        },
+        redirectToLogin() {
+            this.$router.push({ name: 'login' });
         }
     }
 };

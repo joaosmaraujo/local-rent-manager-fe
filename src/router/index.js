@@ -26,7 +26,7 @@ const routes = [
     { path: '/houses-list', name: 'housesList', component: HousesList, meta: { requiresAuth: true } },
     { path: '/houses/:houseId', name: 'house', component: House, meta: { requiresAuth: true } },
     { path: '/bookings-list', name: 'bookingsList', component: BookingsList, meta: { requiresAuth: true } },
-    { path: '/tasks-list', name: 'tasksList', component: TasksList, meta: { requiresAuth: true } },
+    { path: '/tasks-list', name: 'tasksList', component: TasksList, meta: { requiresAuth: true } }
 ];
 
 const router = new VueRouter({

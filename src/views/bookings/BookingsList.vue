@@ -45,7 +45,7 @@
                                         <v-col cols="12" sm="6" md="4">
                                             <v-text-field
                                                 v-model="editedItem.checkInDate"
-                                                label="Deadline"
+                                                label="Check-in"
                                                 prepend-icon="mdi-event"
                                                 type="date"
                                                 dense
@@ -54,7 +54,7 @@
                                         <v-col cols="12" sm="6" md="4">
                                             <v-text-field
                                                 v-model="editedItem.checkOutDate"
-                                                label="Deadline"
+                                                label="Check-out"
                                                 prepend-icon="mdi-event"
                                                 type="date"
                                                 dense

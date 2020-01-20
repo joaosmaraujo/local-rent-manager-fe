@@ -39,6 +39,8 @@
                                                 return-object
                                             ></v-select>
                                         </v-col>
+                                    </v-row>
+                                    <v-row>
                                         <v-col cols="12" sm="6" md="4">
                                             <v-text-field v-model="editedItem.type" label="Type" dense></v-text-field>
                                         </v-col>
@@ -119,7 +121,7 @@ export default {
     },
     computed: {
         formTitle() {
-            return !this.editedItem._id ? 'New Item' : 'Edit Item';
+            return !this.editedItem._id ? 'New House' : 'Edit House';
         }
     },
     watch: {

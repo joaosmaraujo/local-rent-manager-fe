@@ -92,7 +92,7 @@ export default {
     },
     computed: {
         formTitle() {
-            return !this.editedItem._id ? 'New Item' : 'Edit Item';
+            return !this.editedItem._id ? 'New Customer' : 'Edit Customer';
         }
     },
 

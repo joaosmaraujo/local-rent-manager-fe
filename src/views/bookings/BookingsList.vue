@@ -25,6 +25,22 @@
                             <v-card-text>
                                 <v-container>
                                     <v-row>
+                                        <v-col cols="12" sm="6" md="6">
+                                            <v-text-field
+                                                v-model="editedItem.guestFirstName"
+                                                label="Guest First Name"
+                                                dense
+                                            ></v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="6" md="6">
+                                            <v-text-field
+                                                v-model="editedItem.guestLastName"
+                                                label="Guest First Name"
+                                                dense
+                                            ></v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
                                         <v-col cols="12" sm="6" md="4">
                                             <v-select
                                                 :items="houses"
@@ -36,21 +52,6 @@
                                                 return-object
                                             ></v-select>
                                         </v-col>
-                                        <v-col cols="12" sm="6" md="4">
-                                            <v-text-field
-                                                v-model="editedItem.guestFirstName"
-                                                label="Guest First Name"
-                                                dense
-                                            ></v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="6" md="4">
-                                            <v-text-field
-                                                v-model="editedItem.guestLastName"
-                                                label="Guest First Name"
-                                                dense
-                                            ></v-text-field>
-                                        </v-col>
-
                                         <v-col cols="12" sm="6" md="4">
                                             <v-menu
                                                 v-model="menuCheckInDate"
@@ -67,6 +68,7 @@
                                                         prepend-icon="mdi-calendar"
                                                         readonly
                                                         v-on="on"
+                                                        dense
                                                     ></v-text-field>
                                                 </template>
                                                 <v-date-picker
@@ -91,6 +93,7 @@
                                                         prepend-icon="mdi-calendar"
                                                         readonly
                                                         v-on="on"
+                                                        dense
                                                     ></v-text-field>
                                                 </template>
                                                 <v-date-picker
@@ -168,7 +171,7 @@ export default {
 
     computed: {
         formTitle() {
-            return !this.editedItem._id ? 'New Item' : 'Edit Item';
+            return !this.editedItem._id ? 'New Booking' : 'Edit Booking';
         }
     },
 

@@ -25,19 +25,21 @@
                             <v-card-text>
                                 <v-container>
                                     <v-row>
-                                        <v-col cols="12" sm="6" md="4">
+                                        <v-col cols="12" sm="12" md="12">
                                             <v-text-field v-model="editedItem.name" label="Name" dense></v-text-field>
                                         </v-col>
-                                        <v-col cols="12" sm="6" md="4">
+                                    </v-row>
+                                    <v-row>
+                                        <v-col cols="12" sm="6" md="6">
                                             <v-select
-                                                :items="['weekly', 'monthly']"
+                                                :items="['weekly', 'monthly', 'yearly', 'none']"
                                                 v-model="editedItem.frequency"
                                                 label="Frequency"
                                                 dense
                                                 outlined
                                             ></v-select>
                                         </v-col>
-                                        <v-col cols="12" sm="6" md="4">
+                                        <v-col cols="12" sm="6" md="6">
                                             <v-text-field
                                                 v-model="editedItem.advance"
                                                 label="Advance (days)"
@@ -99,7 +101,7 @@ export default {
 
     computed: {
         formTitle() {
-            return !this.editedItem._id ? 'New Item' : 'Edit Item';
+            return !this.editedItem._id ? 'New Work' : 'Edit Work';
         }
     },
 

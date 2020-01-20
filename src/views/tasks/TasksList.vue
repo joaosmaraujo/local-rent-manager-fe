@@ -36,7 +36,7 @@
                                                 return-object
                                             ></v-select>
                                         </v-col>
-                                        <v-col cols="12" sm="6" md="4">
+                                        <v-col cols="12" sm="6" md="8">
                                             <v-select
                                                 :items="works"
                                                 item-text="name"
@@ -47,6 +47,8 @@
                                                 return-object
                                             ></v-select>
                                         </v-col>
+                                    </v-row>
+                                    <v-row>
                                         <v-col cols="12" sm="6" md="4">
                                             <v-text-field
                                                 type="number"
@@ -71,6 +73,7 @@
                                                         prepend-icon="mdi-calendar"
                                                         readonly
                                                         v-on="on"
+                                                        dense
                                                     ></v-text-field>
                                                 </template>
                                                 <v-date-picker
@@ -159,7 +162,7 @@ export default {
     },
     computed: {
         formTitle() {
-            return !this.editedItem._id ? 'New Item' : 'Edit Item';
+            return !this.editedItem._id ? 'New Task' : 'Edit Task';
         }
     },
 

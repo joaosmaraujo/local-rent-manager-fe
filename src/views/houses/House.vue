@@ -36,21 +36,21 @@
                                     <v-card-text>
                                         <v-container>
                                             <v-row>
-                                                <v-col cols="12" sm="6" md="4">
+                                                <v-col cols="12" sm="6" md="6">
                                                     <v-text-field
                                                         v-model="editedBooking.guestFirstName"
                                                         label="Guest First Name"
                                                         dense
                                                     ></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
+                                                <v-col cols="12" sm="6" md="6">
                                                     <v-text-field
                                                         v-model="editedBooking.guestLastName"
                                                         label="Guest Last Name"
                                                         dense
                                                     ></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
+                                                <v-col cols="12" sm="6" md="6">
                                                     <v-menu
                                                         v-model="menuCheckInDate"
                                                         :close-on-content-click="false"
@@ -66,6 +66,7 @@
                                                                 prepend-icon="mdi-calendar"
                                                                 readonly
                                                                 v-on="on"
+                                                                dense
                                                             ></v-text-field>
                                                         </template>
                                                         <v-date-picker
@@ -74,7 +75,7 @@
                                                         ></v-date-picker>
                                                     </v-menu>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
+                                                <v-col cols="12" sm="6" md="6">
                                                     <v-menu
                                                         v-model="menuCheckOutDate"
                                                         :close-on-content-click="false"
@@ -90,6 +91,7 @@
                                                                 prepend-icon="mdi-calendar"
                                                                 readonly
                                                                 v-on="on"
+                                                                dense
                                                             ></v-text-field>
                                                         </template>
                                                         <v-date-picker
@@ -161,7 +163,7 @@
                                     <v-card-text>
                                         <v-container>
                                             <v-row>
-                                                <v-col cols="12" sm="6" md="4">
+                                                <v-col cols="12" sm="6" md="6">
                                                     <v-select
                                                         :items="works"
                                                         item-text="name"
@@ -172,15 +174,16 @@
                                                         return-object
                                                     ></v-select>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field
-                                                        type="number"
-                                                        v-model="editedTask.cost"
-                                                        label="Cost"
+                                                <v-col cols="12" sm="6" md="6">
+                                                    <v-select
+                                                        :items="[true, false]"
+                                                        v-model="editedTask.completed"
+                                                        label="Completed"
                                                         dense
-                                                    ></v-text-field>
+                                                        outlined
+                                                    ></v-select>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
+                                                <v-col cols="12" sm="6" md="6">
                                                     <v-menu
                                                         v-model="menuDeadline"
                                                         :close-on-content-click="false"
@@ -196,6 +199,7 @@
                                                                 prepend-icon="mdi-calendar"
                                                                 readonly
                                                                 v-on="on"
+                                                                dense
                                                             ></v-text-field>
                                                         </template>
                                                         <v-date-picker
@@ -204,14 +208,13 @@
                                                         ></v-date-picker>
                                                     </v-menu>
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="4">
-                                                    <v-select
-                                                        :items="[true, false]"
-                                                        v-model="editedTask.completed"
-                                                        label="Completed"
+                                                <v-col cols="12" sm="6" md="6">
+                                                    <v-text-field
+                                                        type="number"
+                                                        v-model="editedTask.cost"
+                                                        label="Cost"
                                                         dense
-                                                        outlined
-                                                    ></v-select>
+                                                    ></v-text-field>
                                                 </v-col>
                                             </v-row>
                                         </v-container>
@@ -306,10 +309,10 @@ export default {
 
     computed: {
         bookingFormTitle() {
-            return !this.editedBooking._id ? 'New Item' : 'Edit Item';
+            return !this.editedBooking._id ? 'New Booking' : 'Edit Booking';
         },
         taskFormTitle() {
-            return !this.editedTask._id ? 'New Item' : 'Edit Item';
+            return !this.editedTask._id ? 'New Task' : 'Edit Task';
         }
     },
 

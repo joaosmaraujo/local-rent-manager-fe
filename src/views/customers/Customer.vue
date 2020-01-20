@@ -27,20 +27,20 @@
                             <v-card-text>
                                 <v-container>
                                     <v-row>
-                                        <v-col cols="12" sm="6" md="4">
+                                        <v-col cols="12" sm="6" md="6">
                                             <v-text-field v-model="editedItem.label" label="Label" dense></v-text-field>
                                         </v-col>
-                                        <v-col cols="12" sm="6" md="4">
+                                        <v-col cols="12" sm="6" md="6">
                                             <v-text-field v-model="editedItem.type" label="Type" dense></v-text-field>
                                         </v-col>
-                                        <v-col cols="12" sm="6" md="4">
+                                        <v-col cols="12" sm="6" md="6">
                                             <v-text-field
                                                 v-model="editedItem.address"
                                                 label="Address"
                                                 dense
                                             ></v-text-field>
                                         </v-col>
-                                        <v-col cols="12" sm="6" md="4">
+                                        <v-col cols="12" sm="6" md="6">
                                             <v-text-field v-model="editedItem.city" label="City" dense></v-text-field>
                                         </v-col>
                                     </v-row>
@@ -109,7 +109,7 @@ export default {
     },
     computed: {
         formTitle() {
-            return !this.editedItem._id ? 'New Item' : 'Edit Item';
+            return !this.editedItem._id ? 'New House' : 'Edit House';
         }
     },
     watch: {

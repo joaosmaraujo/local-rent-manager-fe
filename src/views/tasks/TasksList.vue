@@ -114,10 +114,10 @@
                 <v-icon small class="mr-2" @click="deleteTask(item)">
                     {{ actions.delete }}
                 </v-icon>
-                <v-icon small :color="'green'" class="mr-2" @click="completeTask(item)" v-if="!item.completed">
+                <v-icon small :color="'red'" class="mr-2" @click="completeTask(item)" v-if="!item.completed">
                     {{ actions.check }}
                 </v-icon>
-                <v-icon small :color="'red'" class="mr-2" @click="uncompleteTask(item)" v-if="item.completed">
+                <v-icon small :color="'green'" class="mr-2" @click="uncompleteTask(item)" v-if="item.completed">
                     {{ actions.uncheck }}
                 </v-icon>
             </template>
@@ -126,6 +126,7 @@
 </template>
 <script>
 import api from '@/api';
+import { mapGetters } from 'vuex';
 export default {
     data() {
         return {
@@ -157,13 +158,14 @@ export default {
                 deadline: '',
                 completed: false
             },
-            actions: { edit: 'mdi-pencil', delete: 'mdi-delete', check: 'mdi-check-bold', uncheck: 'mdi-close-circle' }
+            actions: { edit: 'mdi-pencil', delete: 'mdi-delete', check: 'mdi-check-bold', uncheck: 'mdi-check-bold' }
         };
     },
     computed: {
         formTitle() {
             return !this.editedItem._id ? 'New Task' : 'Edit Task';
-        }
+        },
+        ...mapGetters(['user'])
     },
 
     watch: {
@@ -206,11 +208,13 @@ export default {
 
         async completeTask(item) {
             item.completed = true;
+            item.completedBy = this.user._id;
             this.saveTask(item);
         },
 
         async uncompleteTask(item) {
             item.completed = false;
+            item.completedBy = '';
             this.saveTask(item);
         },
 

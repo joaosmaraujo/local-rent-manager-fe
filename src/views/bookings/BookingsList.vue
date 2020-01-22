@@ -122,6 +122,30 @@
                 <span>{{ item.checkOutDate | formatDate }}</span>
             </template>
             <template v-slot:item.action="{ item }">
+                <v-icon small :color="'red'" class="mr-2" @click="checkInBooking(item)" v-if="!item.checkInCompleted">
+                    {{ actions.checkIn }}
+                </v-icon>
+                <v-icon
+                    small
+                    :color="'green'"
+                    class="mr-2"
+                    @click="uncheckInBooking(item)"
+                    v-if="item.checkInCompleted"
+                >
+                    {{ actions.checkIn }}
+                </v-icon>
+                <v-icon small :color="'red'" class="mr-2" @click="checkOutBooking(item)" v-if="!item.checkOutCompleted">
+                    {{ actions.checkOut }}
+                </v-icon>
+                <v-icon
+                    small
+                    :color="'green'"
+                    class="mr-2"
+                    @click="uncheckOutBooking(item)"
+                    v-if="item.checkOutCompleted"
+                >
+                    {{ actions.checkOut }}
+                </v-icon>
                 <v-icon small class="mr-2" @click="editBooking(item)">
                     {{ actions.edit }}
                 </v-icon>
@@ -134,6 +158,7 @@
 </template>
 <script>
 import api from '@/api';
+import { mapGetters } from 'vuex';
 export default {
     data() {
         return {
@@ -165,14 +190,20 @@ export default {
                 checkInDate: '',
                 checkOutDate: ''
             },
-            actions: { edit: 'mdi-pencil', delete: 'mdi-delete' }
+            actions: {
+                checkIn: 'mdi-location-enter',
+                checkOut: 'mdi-location-exit',
+                edit: 'mdi-pencil',
+                delete: 'mdi-delete'
+            }
         };
     },
 
     computed: {
         formTitle() {
             return !this.editedItem._id ? 'New Booking' : 'Edit Booking';
-        }
+        },
+        ...mapGetters(['user'])
     },
 
     watch: {
@@ -202,6 +233,38 @@ export default {
                 { checkOutDate: new Date(item.checkOutDate).toISOString().substr(0, 10) }
             );
             this.dialog = true;
+        },
+
+        async checkInBooking(item) {
+            const updatedItem = Object.assign({}, item, { checkInCompleted: true }, { checkInBy: this.user._id });
+
+            api.update('bookings', updatedItem._id, updatedItem).then(() => {
+                this.getBookings();
+            });
+        },
+
+        async uncheckInBooking(item) {
+            const updatedItem = Object.assign({}, item, { checkInCompleted: false }, { checkInBy: '' });
+
+            api.update('bookings', updatedItem._id, updatedItem).then(() => {
+                this.getBookings();
+            });
+        },
+
+        async checkOutBooking(item) {
+            const updatedItem = Object.assign({}, item, { checkOutCompleted: true }, { checkOutBy: this.user._id });
+
+            api.update('bookings', updatedItem._id, updatedItem).then(() => {
+                this.getBookings();
+            });
+        },
+
+        async uncheckOutBooking(item) {
+            const updatedItem = Object.assign({}, item, { checkOutCompleted: false }, { checkOutBy: this.user._id });
+
+            api.update('bookings', updatedItem._id, updatedItem).then(() => {
+                this.getBookings();
+            });
         },
 
         async deleteBooking(item) {

@@ -18,7 +18,7 @@
 
                     <v-list-item-content>
                         <v-list-item-title>Local Rent Manager</v-list-item-title>
-                        <v-list-item-subtitle>João Araújo</v-list-item-subtitle>
+                        <v-list-item-subtitle>{{ user.firstName }} {{ user.lastName }}</v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
                 <v-divider></v-divider>
@@ -107,7 +107,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['isLoggedIn'])
+        ...mapGetters(['isLoggedIn', 'user'])
     },
     methods: {
         ...mapActions(['logout']),

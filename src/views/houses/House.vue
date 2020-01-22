@@ -3,6 +3,7 @@
         <h1>{{ house.label }}</h1>
         <h3>Bookings: {{ house.bookings && house.bookings.length }}</h3>
         <h3>Tasks: {{ house.tasks && house.tasks.length }}</h3>
+        <h3>Total Cost: {{ house.totalCost }}</h3>
         <v-row>
             <v-col cols="12">
                 <v-data-table
@@ -335,6 +336,11 @@ export default {
     methods: {
         async getHouse(_id) {
             this.house = await api.get('houses', _id);
+            this.house.totalCost = this.getTotalCost(this.house.tasks);
+        },
+
+        getTotalCost(tasks) {
+            return tasks.reduce((totalCost, task) => totalCost + task.cost, 0);
         },
 
         editBooking(item) {

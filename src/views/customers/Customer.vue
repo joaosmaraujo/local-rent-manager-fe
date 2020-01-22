@@ -2,6 +2,9 @@
     <div>
         <h1>{{ customer.lastName }}, {{ customer.firstName }}</h1>
         <h3>Houses: {{ customer.houses && customer.houses.length }}</h3>
+        <h3>Bookings: {{ customer.numberOfBookings && customer.numberOfBookings }}</h3>
+        <h3>Tasks: {{ customer.numberOfTasks && customer.numberOfTasks }}</h3>
+        <h3>Total Cost: {{ customer.totalCost }}</h3>
         <v-data-table :headers="headers" :items="customer.houses" :search="search" sort-by="label" class="elevation-5">
             <template v-slot:top>
                 <v-toolbar flat color="white">
@@ -127,6 +130,19 @@ export default {
     methods: {
         async getCustomer(_id) {
             this.customer = await api.get('customers', _id);
+            this.customer.numberOfTasks = this.getNumberOf(this.customer.houses, 'tasks');
+            this.customer.numberOfBookings = this.getNumberOf(this.customer.houses, 'bookings');
+            this.customer.totalCost = this.getTotalCost(this.customer.houses);
+        },
+
+        getNumberOf(houses, prop) {
+            return houses.reduce((total, house) => total + house[prop].length, 0);
+        },
+
+        getTotalCost(houses) {
+            return houses
+                .reduce((total, house) => total.concat(house.tasks), [])
+                .reduce((totalCost, task) => totalCost + task.cost, 0);
         },
 
         open(item) {

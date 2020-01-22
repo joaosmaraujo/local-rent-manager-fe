@@ -23,7 +23,7 @@ const actions = {
             const user = res.data.user;
             localStorage.setItem('token', token);
             axios.defaults.headers.common['Authorization'] = token;
-            commit('auth_success', token, user);
+            commit('auth_success', { token, user });
         }
         return res;
     },
@@ -50,7 +50,7 @@ const mutations = {
     auth_request(state) {
         state.status = 'loading';
     },
-    auth_success(state, token, user) {
+    auth_success(state, { token, user }) {
         (state.token = token), (state.user = user);
         state.status = 'success';
     },

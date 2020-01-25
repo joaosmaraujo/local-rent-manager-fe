@@ -29,6 +29,7 @@
                                             <v-text-field
                                                 v-model="editedItem.guestFirstName"
                                                 label="Guest First Name"
+                                                :rules="[inputRules.required]"
                                                 dense
                                                 @keydown.space.prevent
                                             ></v-text-field>
@@ -37,6 +38,7 @@
                                             <v-text-field
                                                 v-model="editedItem.guestLastName"
                                                 label="Guest Last Name"
+                                                :rules="[inputRules.required]"
                                                 dense
                                                 @keydown.space.prevent
                                             ></v-text-field>
@@ -49,6 +51,7 @@
                                                 item-text="label"
                                                 v-model="editedItem.house"
                                                 label="House"
+                                                :rules="[inputRules.required]"
                                                 dense
                                                 outlined
                                                 return-object
@@ -67,6 +70,7 @@
                                                     <v-text-field
                                                         v-model="editedItem.checkInDate"
                                                         label="Check-in"
+                                                        :rules="[inputRules.required]"
                                                         prepend-icon="mdi-calendar"
                                                         readonly
                                                         v-on="on"
@@ -91,7 +95,8 @@
                                                 <template v-slot:activator="{ on }">
                                                     <v-text-field
                                                         v-model="editedItem.checkOutDate"
-                                                        label="Check-in"
+                                                        label="Check-out"
+                                                        :rules="[inputRules.required, inputRules.checkOut]"
                                                         prepend-icon="mdi-calendar"
                                                         readonly
                                                         v-on="on"
@@ -169,6 +174,12 @@ export default {
              */
             dialog: false,
             search: '',
+            inputRules: {
+                required: value => !!value || 'Required.',
+                checkOut: value => {
+                    return this.validateCheckout(value) || 'Check-out must be later than check-in.';
+                }
+            },
             menuCheckInDate: false,
             menuCheckOutDate: false,
             headers: [
@@ -306,6 +317,10 @@ export default {
                     this.close();
                 });
             }
+        },
+
+        validateCheckout(checkOutDate) {
+            return new Date(checkOutDate).toDateString() >= new Date(this.editedItem.checkInDate).toDateString();
         }
     }
 };

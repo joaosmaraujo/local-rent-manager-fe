@@ -26,7 +26,12 @@
                                 <v-container>
                                     <v-row>
                                         <v-col cols="12" sm="12" md="12">
-                                            <v-text-field v-model="editedItem.name" label="Name" dense></v-text-field>
+                                            <v-text-field
+                                                v-model="editedItem.name"
+                                                label="Name"
+                                                :rules="[inputRules.required]"
+                                                dense
+                                            ></v-text-field>
                                         </v-col>
                                     </v-row>
                                     <v-row>
@@ -35,6 +40,7 @@
                                                 :items="['weekly', 'monthly', 'yearly', 'none']"
                                                 v-model="editedItem.frequency"
                                                 label="Frequency"
+                                                :rules="[inputRules.required]"
                                                 dense
                                                 outlined
                                             ></v-select>
@@ -43,6 +49,7 @@
                                             <v-text-field
                                                 v-model="editedItem.advance"
                                                 label="Advance (days)"
+                                                :rules="[inputRules.required, inputRules.minValue]"
                                                 type="number"
                                                 dense
                                             ></v-text-field>
@@ -78,6 +85,10 @@ export default {
         return {
             dialog: false,
             search: '',
+            inputRules: {
+                required: value => !!value || 'Required.',
+                minValue: value => value >= 0 || 'Value must be equal or greater than zero.'
+            },
             headers: [
                 { text: 'Name', value: 'name' },
                 { text: 'Frequency', value: 'frequency' },

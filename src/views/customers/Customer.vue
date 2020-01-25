@@ -31,20 +31,37 @@
                                 <v-container>
                                     <v-row>
                                         <v-col cols="12" sm="6" md="6">
-                                            <v-text-field v-model="editedItem.label" label="Label" dense></v-text-field>
+                                            <v-text-field
+                                                v-model="editedItem.label"
+                                                :rules="[inputRules.required]"
+                                                label="Label"
+                                                dense
+                                            ></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="6">
-                                            <v-text-field v-model="editedItem.type" label="Type" @keydown.space.prevent dense></v-text-field>
+                                            <v-text-field
+                                                v-model="editedItem.type"
+                                                label="Type"
+                                                :rules="[inputRules.required]"
+                                                @keydown.space.prevent
+                                                dense
+                                            ></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="6">
                                             <v-text-field
                                                 v-model="editedItem.address"
+                                                :rules="[inputRules.required]"
                                                 label="Address"
                                                 dense
                                             ></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="6">
-                                            <v-text-field v-model="editedItem.city" label="City" dense></v-text-field>
+                                            <v-text-field
+                                                v-model="editedItem.city"
+                                                :rules="[inputRules.required]"
+                                                label="City"
+                                                dense
+                                            ></v-text-field>
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -81,6 +98,9 @@ export default {
         return {
             dialog: false,
             search: '',
+            inputRules: {
+                required: value => !!value || 'Required.'
+            },
             headers: [
                 {
                     text: 'Label',

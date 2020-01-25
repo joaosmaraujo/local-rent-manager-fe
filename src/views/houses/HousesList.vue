@@ -26,7 +26,12 @@
                                 <v-container>
                                     <v-row>
                                         <v-col cols="12" sm="6" md="4">
-                                            <v-text-field v-model="editedItem.label" label="Label" dense></v-text-field>
+                                            <v-text-field
+                                                v-model="editedItem.label"
+                                                label="Label"
+                                                :rules="[inputRules.required]"
+                                                dense
+                                            ></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
                                             <v-select
@@ -34,6 +39,7 @@
                                                 item-text="lastName"
                                                 v-model="editedItem.owner"
                                                 label="Customer"
+                                                :rules="[inputRules.required]"
                                                 dense
                                                 outlined
                                                 return-object
@@ -42,11 +48,18 @@
                                     </v-row>
                                     <v-row>
                                         <v-col cols="12" sm="6" md="4">
-                                            <v-text-field v-model="editedItem.type" label="Type" dense @keydown.space.prevent></v-text-field>
+                                            <v-text-field
+                                                v-model="editedItem.type"
+                                                label="Type"
+                                                :rules="[inputRules.required]"
+                                                dense
+                                                @keydown.space.prevent
+                                            ></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
                                             <v-text-field
                                                 v-model="editedItem.address"
+                                                :rules="[inputRules.required]"
                                                 label="Address"
                                                 dense
                                             ></v-text-field>
@@ -88,6 +101,9 @@ export default {
         return {
             dialog: false,
             search: '',
+            inputRules: {
+                required: value => !!value || 'Required.'
+            },
             headers: [
                 {
                     text: 'Label',

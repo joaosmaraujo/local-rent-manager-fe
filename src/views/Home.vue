@@ -122,7 +122,6 @@
     </div>
 </template>
 <script>
-
 import api from '@/api';
 import { buildUsersTops, buildHousesTops, buildCustomersTops, buildRankingViewModel } from '@/helpers/rankings.helper';
 import { mapGetters } from 'vuex';
@@ -167,12 +166,12 @@ export default {
     methods: {
         async getAllData() {
             this.customers = await api.getAll('customers');
-            this.totalData[0].total = this.customers.length;
             this.houses = await api.getAll('houses');
-            this.totalData[1].total = this.houses.length;
             this.tasks = await api.getAll('tasks');
-            this.totalData[2].total = this.tasks.length;
             this.bookings = await api.getAll('bookings');
+            this.totalData[0].total = this.customers.length;
+            this.totalData[1].total = this.houses.length;
+            this.totalData[2].total = this.tasks.length;
             this.totalData[3].total = this.bookings.length;
         },
 

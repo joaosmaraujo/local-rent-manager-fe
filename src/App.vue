@@ -101,7 +101,7 @@ export default {
         ...mapGetters(['isLoggedIn'])
     },
     async created() {
-        this.getUserProfile()
+        this.getUserProfile();
     },
     methods: {
         ...mapActions(['logout']),
@@ -109,10 +109,9 @@ export default {
             this.logout();
         },
         async getUserProfile() {
-            await api.getUserProfile().then((res => {
+            await api.getUserProfile().then(res => {
                 this.user = res.user;
-            }));
-            
+            });
         }
     }
 };

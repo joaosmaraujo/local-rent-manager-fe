@@ -47,15 +47,14 @@ export default {
         };
     },
     async created() {
-        this.getUserProfile()
+        this.getUserProfile();
     },
     methods: {
         async getUserProfile() {
-            await api.getUserProfile().then((res => {
+            await api.getUserProfile().then(res => {
                 console.log(res.user);
                 this.user = res.user;
-            }));
-            
+            });
         }
     }
 };

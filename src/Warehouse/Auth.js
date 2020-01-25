@@ -31,7 +31,7 @@ const actions = {
     // Register user
     async register({ commit }, userData) {
         commit('register_request');
-        let res = api.register(userData)
+        let res = api.register(userData);
         if (res.success !== undefined) {
             commit('register_success');
         }

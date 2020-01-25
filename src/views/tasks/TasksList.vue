@@ -31,6 +31,7 @@
                                                 item-text="label"
                                                 v-model="editedItem.house"
                                                 label="House"
+                                                :rules="[inputRules.required]"
                                                 dense
                                                 outlined
                                                 return-object
@@ -42,6 +43,7 @@
                                                 item-text="name"
                                                 v-model="editedItem.work"
                                                 label="Work to be done"
+                                                :rules="[inputRules.required]"
                                                 dense
                                                 outlined
                                                 return-object
@@ -54,6 +56,7 @@
                                                 type="number"
                                                 v-model="editedItem.cost"
                                                 label="Cost"
+                                                :rules="[inputRules.required, inputRules.minValue]"
                                                 dense
                                             ></v-text-field>
                                         </v-col>
@@ -70,6 +73,7 @@
                                                     <v-text-field
                                                         v-model="editedItem.deadline"
                                                         label="Deadline"
+                                                        :rules="[inputRules.required]"
                                                         prepend-icon="mdi-calendar"
                                                         readonly
                                                         v-on="on"
@@ -133,6 +137,10 @@ export default {
             menu: false,
             dialog: false,
             search: '',
+            inputRules: {
+                required: value => !!value || 'Required.',
+                minValue: value => value >= 0 || 'Value must be equal or greater than zero.'
+            },
             headers: [
                 { text: 'House', value: 'house.label' },
                 { text: 'Work', value: 'work.name' },

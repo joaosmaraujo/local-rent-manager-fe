@@ -9,24 +9,55 @@
                 <v-container>
                     <v-row>
                         <v-col cols="12" sm="6" md="4">
-                            <v-text-field v-model="firstName" label="First Name" dense @keydown.space.prevent></v-text-field>
+                            <v-text-field
+                                v-model="firstName"
+                                label="First Name"
+                                :rules="[inputRules.required]"
+                                dense
+                                @keydown.space.prevent
+                            ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
-                            <v-text-field v-model="lastName" label="Last Name" dense @keydown.space.prevent></v-text-field>
+                            <v-text-field
+                                v-model="lastName"
+                                label="Last Name"
+                                dense
+                                @keydown.space.prevent
+                            ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
-                            <v-text-field v-model="email" label="E-mail" type="email" dense></v-text-field>
+                            <v-text-field
+                                v-model="email"
+                                label="E-mail"
+                                :rules="[inputRules.email, inputRules.required]"
+                                type="email"
+                                dense
+                                @keydown.space.prevent
+                            ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
-                            <v-text-field v-model="username" label="Username" dense @keydown.space.prevent></v-text-field>
+                            <v-text-field
+                                v-model="username"
+                                label="Username"
+                                :rules="[inputRules.required]"
+                                dense
+                                @keydown.space.prevent
+                            ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
-                            <v-text-field v-model="password" label="Password" type="password" dense></v-text-field>
+                            <v-text-field
+                                v-model="password"
+                                label="Password"
+                                :rules="[inputRules.required]"
+                                type="password"
+                                dense
+                            ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                             <v-text-field
                                 v-model="confirm_password"
                                 label="Confirm Password"
+                                :rules="[inputRules.required, rules.passwordMatch]"
                                 type="password"
                                 dense
                             ></v-text-field>
@@ -54,7 +85,17 @@ export default {
             username: '',
             email: '',
             password: '',
-            confirm_password: ''
+            confirm_password: '',
+            inputRules: {
+                required: value => !!value || 'Required.',
+                passwordMatch: value => {
+                    return this.testPasswordMatch(value) || 'Passwords do not match';
+                },
+                email: value => {
+                    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                    return pattern.test(value) || 'Invalid e-mail.';
+                }
+            }
         };
     },
     methods: {
@@ -77,6 +118,9 @@ export default {
         },
         redirectToLogin() {
             this.$router.push({ name: 'login' });
+        },
+        testPasswordMatch(value) {
+            return this.password === value;
         }
     }
 };

@@ -29,6 +29,7 @@
                                             <v-text-field
                                                 v-model="editedItem.firstName"
                                                 label="First Name"
+                                                :rules="[inputRules.required]"
                                                 dense
                                                 @keydown.space.prevent
                                             ></v-text-field>
@@ -37,6 +38,7 @@
                                             <v-text-field
                                                 v-model="editedItem.lastName"
                                                 label="Last Name"
+                                                :rules="[inputRules.required]"
                                                 dense
                                                 @keydown.space.prevent
                                             ></v-text-field>
@@ -75,6 +77,9 @@ export default {
         return {
             dialog: false,
             search: '',
+            inputRules: {
+                required: value => !!value || 'Required.'
+            },
             headers: [
                 { text: 'First Name', value: 'firstName' },
                 { text: 'Last Name', value: 'lastName' },

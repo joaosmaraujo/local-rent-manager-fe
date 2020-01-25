@@ -41,6 +41,7 @@
                                                     <v-text-field
                                                         v-model="editedBooking.guestFirstName"
                                                         label="Guest First Name"
+                                                        :rules="[inputRules.required]"
                                                         dense
                                                         @keydown.space.prevent
                                                     ></v-text-field>
@@ -49,6 +50,7 @@
                                                     <v-text-field
                                                         v-model="editedBooking.guestLastName"
                                                         label="Guest Last Name"
+                                                        :rules="[inputRules.required]"
                                                         dense
                                                         @keydown.space.prevent
                                                     ></v-text-field>
@@ -66,6 +68,7 @@
                                                             <v-text-field
                                                                 v-model="editedBooking.checkInDate"
                                                                 label="Check-in"
+                                                                :rules="[inputRules.required]"
                                                                 prepend-icon="mdi-calendar"
                                                                 readonly
                                                                 v-on="on"
@@ -90,7 +93,8 @@
                                                         <template v-slot:activator="{ on }">
                                                             <v-text-field
                                                                 v-model="editedBooking.checkOutDate"
-                                                                label="Check-in"
+                                                                label="Check-out"
+                                                                :rules="[inputRules.required, inputRules.checkOut]"
                                                                 prepend-icon="mdi-calendar"
                                                                 readonly
                                                                 v-on="on"
@@ -172,6 +176,7 @@
                                                         item-text="name"
                                                         v-model="editedTask.work"
                                                         label="Work to be done"
+                                                        :rules="[inputRules.required]"
                                                         dense
                                                         outlined
                                                         return-object
@@ -199,6 +204,7 @@
                                                             <v-text-field
                                                                 v-model="editedTask.deadline"
                                                                 label="Deadline"
+                                                                :rules="[inputRules.required]"
                                                                 prepend-icon="mdi-calendar"
                                                                 readonly
                                                                 v-on="on"
@@ -215,6 +221,7 @@
                                                     <v-text-field
                                                         type="number"
                                                         v-model="editedTask.cost"
+                                                        :rules="[inputRules.required, inputValues.minValue]"
                                                         label="Cost"
                                                         dense
                                                     ></v-text-field>
@@ -262,6 +269,13 @@ export default {
             menuDeadline: false,
             searchBooking: '',
             searchTask: '',
+            inputRules: {
+                required: value => !!value || 'Required.',
+                minValue: value => value >= 0 || 'Value must be equal or greater than zero.',
+                checkOut: value => {
+                    return this.validateCheckout(value) || 'Check-out must be later than check-in.';
+                }
+            },
             bookingsHeaders: [
                 { text: 'Guest First Name', value: 'guestFirstName' },
                 { text: 'Guest Last Name', value: 'guestLastName' },
@@ -426,6 +440,10 @@ export default {
                     this.closeTask();
                 });
             }
+        },
+
+        validateCheckout(checkOutDate) {
+            return new Date(checkOutDate).toDateString() >= new Date(this.editedItem.checkInDate).toDateString();
         }
     }
 };

@@ -32,10 +32,22 @@
                         hide-delimiter-background
                         show-arrows-on-hover
                     >
-                        <v-carousel-item v-for="usersRanking in usersRankings" :key="usersRanking.label">
+                        <v-carousel-item v-for="usersRanking in usersRankings" :key="usersRanking.key">
                             <v-sheet :color="usersRanking.color" height="100%">
-                                <v-row class="fill-height" align="center" justify="center">
-                                    <div class="display-1">{{ usersRanking.label }}</div>
+                                <v-row align="center" justify="center">
+                                    <div class="title">Top Users by {{ usersRanking.label }}</div>
+                                </v-row>
+                                <v-row
+                                    dense
+                                    v-for="usersRankingPosition in usersRanking.data"
+                                    :key="usersRankingPosition.username"
+                                >
+                                    <v-col align="center" justify="center" cols="8">
+                                        {{ usersRankingPosition.username }}
+                                    </v-col>
+                                    <v-col align="center" justify="center" cols="4">
+                                        {{ usersRankingPosition[usersRanking.key] }}
+                                    </v-col>
                                 </v-row>
                             </v-sheet>
                         </v-carousel-item>
@@ -53,10 +65,22 @@
                         hide-delimiter-background
                         show-arrows-on-hover
                     >
-                        <v-carousel-item v-for="customersRanking in customersRankings" :key="customersRanking.label">
-                            <v-sheet :color="customersRanking.color" height="100%">
-                                <v-row class="fill-height" align="center" justify="center">
-                                    <div class="display-1">{{ customersRanking.label }}</div>
+                        <v-carousel-item v-for="housesRanking in housesRankings" :key="housesRanking.key">
+                            <v-sheet :color="housesRanking.color" height="100%">
+                                <v-row align="center" justify="center">
+                                    <div class="title">Top Houses by {{ housesRanking.label }}</div>
+                                </v-row>
+                                <v-row
+                                    dense
+                                    v-for="housesRankingPosition in housesRanking.data"
+                                    :key="housesRankingPosition.label"
+                                >
+                                    <v-col align="center" justify="center" cols="8">
+                                        {{ housesRankingPosition.label }}
+                                    </v-col>
+                                    <v-col align="center" justify="center" cols="4">
+                                        {{ housesRankingPosition[housesRanking.key] }}
+                                    </v-col>
                                 </v-row>
                             </v-sheet>
                         </v-carousel-item>
@@ -72,17 +96,21 @@
                         hide-delimiter-background
                         show-arrows-on-hover
                     >
-                        <v-carousel-item v-for="housesRanking in housesRankings" :key="housesRanking.label">
-                            <v-sheet :color="housesRanking.color" height="100%">
+                        <v-carousel-item v-for="customersRanking in customersRankings" :key="customersRanking.label">
+                            <v-sheet :color="customersRanking.color" height="100%">
                                 <v-row align="center" justify="center">
-                                    <div class="display-1">{{ housesRanking.label }}</div>
+                                    <div class="title">Top Customers by {{ customersRanking.label }}</div>
                                 </v-row>
-                                <v-row dense v-for="housesRankingPosition in housesRanking.data" :key="housesRankingPosition.label">
+                                <v-row
+                                    dense
+                                    v-for="customersRankingPosition in customersRanking.data"
+                                    :key="customersRankingPosition.name"
+                                >
                                     <v-col align="center" justify="center" cols="8">
-                                        {{ housesRankingPosition.label }}
+                                        {{ customersRankingPosition.name }}
                                     </v-col>
                                     <v-col align="center" justify="center" cols="4">
-                                        {{ housesRankingPosition.tasks }}
+                                        {{ customersRankingPosition[customersRanking.key] }}
                                     </v-col>
                                 </v-row>
                             </v-sheet>
@@ -94,9 +122,10 @@
     </div>
 </template>
 <script>
-import api from '@/api';
-import { buildRankingsForUsers, buildRankingsForHouses, buildRankingsForCustomers } from '@/helpers/rankings.helper';
 
+import api from '@/api';
+import { buildUsersTops, buildHousesTops, buildCustomersTops, buildRankingViewModel } from '@/helpers/rankings.helper';
+import { mapGetters } from 'vuex';
 export default {
     data() {
         return {
@@ -104,36 +133,35 @@ export default {
             houses: [],
             tasks: [],
             bookings: [],
+            LABELS: {
+                TOTAL_DATA: {
+                    customers: 'Customers',
+                    houses: 'Houses Managed',
+                    tasks: 'Tasks',
+                    bookings: 'Bookings'
+                }
+            },
             totalData: [
-                { label: 'Customers', total: 0, color: 'red' },
-                { label: 'Houses Managed', total: 0, color: 'warning' },
-                { label: 'Tasks Completed/Registered', total: 'X/Y', color: 'teal' },
-                { label: 'Check-in Completed/Bookings', total: 'Y/Z', color: 'brown' },
-                { label: 'Check-out Completed/Bookings', total: 'Y/Z', color: 'cyan darken-1' }
+                { label: 'Customers', total: 0, color: 'green' },
+                { label: 'Houses Managed', total: 0, color: 'red' },
+                { label: 'Tasks', total: 0, color: 'green' },
+                { label: 'Bookings', total: 0, color: 'red' }
             ],
-            usersRankings: [
-                { label: 'Tasks', color: 'warning' },
-                { label: 'Check-ins', color: 'teal' },
-                { label: 'Check-outs', color: 'pink darken-2' }
-            ],
-            customersRankings: [
-                { label: 'Tasks', color: 'lime darken-1' },
-                { label: 'Bookings', color: 'red' },
-                { label: 'cost', color: 'purple lighten-3' }
-            ],
-            housesRankings: [
-                { label: 'Tasks', color: 'primary', data: [] },
-                { label: 'Bookings', color: 'brown' },
-                { label: 'Costs', color: 'cyan darken-1' }
-            ]
+            housesRankings: [],
+            usersRankings: [],
+            customersRankings: []
         };
+    },
+
+    computed: {
+        ...mapGetters(['user'])
     },
 
     async created() {
         this.getAllData();
-        //this.buildUsersRankings();
+        this.buildUsersRankings();
         this.buildHousesRankings();
-        //this.buildCustomersRankings();
+        this.buildCustomersRankings();
     },
 
     methods: {
@@ -146,31 +174,29 @@ export default {
             this.totalData[2].total = this.tasks.length;
             this.bookings = await api.getAll('bookings');
             this.totalData[3].total = this.bookings.length;
-            this.totalData[4].total = this.bookings.length;
         },
 
         async buildUsersRankings() {
             const users = await api.getAll('users');
             const tasks = await api.getAll('tasks');
             const bookings = await api.getAll('bookings');
-            const rankings = buildRankingsForUsers(users, tasks, bookings);
-            console.log(rankings);
+            const usersTops = buildUsersTops(users, tasks, bookings);
+            this.usersRankings = buildRankingViewModel(usersTops, 'USERS');
         },
 
         async buildHousesRankings() {
             const houses = await api.getAll('houses');
             const tasks = await api.getAll('tasks');
-            const housesRankings = buildRankingsForHouses(houses, tasks);
-            this.housesRankings[0].data = housesRankings.tasks;
-            console.log(this.housesRankings);
+            const housesTops = buildHousesTops(houses, tasks);
+            this.housesRankings = buildRankingViewModel(housesTops, 'HOUSES');
         },
 
         async buildCustomersRankings() {
             const customers = await api.getAll('customers');
             const houses = await api.getAll('houses');
             const tasks = await api.getAll('tasks');
-            const usersRankings = buildRankingsForCustomers(customers, houses, tasks);
-            console.log(usersRankings);
+            const customersTops = buildCustomersTops(customers, houses, tasks);
+            this.customersRankings = buildRankingViewModel(customersTops, 'CUSTOMERS');
         }
     }
 };

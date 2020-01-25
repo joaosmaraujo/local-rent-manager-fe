@@ -31,5 +31,14 @@ export default {
     },
     update(resource, id, data) {
         return this.execute('put', `/${resource}/${id}`, data);
+    },
+    login(user) {
+        return this.execute('post', '/users/login', user);
+    },
+    register(userData) {
+        return this.execute('post', '/users/register', userData);
+    },
+    getUserProfile() {
+        return this.execute('get', '/users/profile');
     }
 };

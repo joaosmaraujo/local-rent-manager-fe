@@ -46,7 +46,7 @@ export default {
 
             this.login(user)
                 .then(res => {
-                    if (res.data.success) {
+                    if (res.success) {
                         this.$router.push({ name: 'home' });
                     }
                 })
@@ -60,5 +60,4 @@ export default {
     }
 };
 </script>
-
 <style></style>

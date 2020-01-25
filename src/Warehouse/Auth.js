@@ -1,4 +1,5 @@
 import axios from 'axios';
+import api from '@/api';
 import router from '../router';
 
 const state = {
@@ -17,10 +18,10 @@ const actions = {
     // Login action
     async login({ commit }, user) {
         commit('auth_request');
-        let res = await axios.post('http://localhost:8081/users/login', user);
-        if (res.data.success) {
-            const token = res.data.token;
-            const user = res.data.user;
+        let res = await api.login(user);
+        if (res.success) {
+            const token = res.token;
+            const user = res.user;
             localStorage.setItem('token', token);
             axios.defaults.headers.common['Authorization'] = token;
             commit('auth_success', { token, user });
@@ -30,8 +31,8 @@ const actions = {
     // Register user
     async register({ commit }, userData) {
         commit('register_request');
-        let res = await axios.post('http://localhost:8081/users/login', userData);
-        if (res.data.success !== undefined) {
+        let res = api.register(userData)
+        if (res.success !== undefined) {
             commit('register_success');
         }
         return res;

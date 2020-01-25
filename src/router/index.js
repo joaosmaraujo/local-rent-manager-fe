@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import UserProfile from '../views/UserProfile.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 import About from '../views/About.vue';
@@ -17,7 +18,8 @@ Vue.use(VueRouter);
 
 const routes = [
     { path: '/', name: 'home', component: Home, meta: { requiresAuth: true } },
-    { path: '/about', name: 'about', component: About, meta: { requiresGuest: true, requiresAuth: true } },
+    { path: '/user-profile', name: 'userProfile', component: UserProfile, meta: { requiresAuth: true } },
+    { path: '/about', name: 'about', component: About, meta: { requiresGuest: true } },
     { path: '/register', name: 'register', component: Register, meta: { requiresGuest: true } },
     { path: '/login', name: 'login', component: Login, meta: { requiresGuest: true } },
     { path: '/customers-list', name: 'customersList', component: CustomersList, meta: { requiresAuth: true } },

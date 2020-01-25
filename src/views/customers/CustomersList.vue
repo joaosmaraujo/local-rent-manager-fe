@@ -30,6 +30,7 @@
                                                 v-model="editedItem.firstName"
                                                 label="First Name"
                                                 dense
+                                                @keydown.space.prevent
                                             ></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
@@ -37,6 +38,7 @@
                                                 v-model="editedItem.lastName"
                                                 label="Last Name"
                                                 dense
+                                                @keydown.space.prevent
                                             ></v-text-field>
                                         </v-col>
                                     </v-row>

@@ -42,6 +42,7 @@
                                                         v-model="editedBooking.guestFirstName"
                                                         label="Guest First Name"
                                                         dense
+                                                        @keydown.space.prevent
                                                     ></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="6">
@@ -49,6 +50,7 @@
                                                         v-model="editedBooking.guestLastName"
                                                         label="Guest Last Name"
                                                         dense
+                                                        @keydown.space.prevent
                                                     ></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="6">

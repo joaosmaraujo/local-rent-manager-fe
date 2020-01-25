@@ -30,13 +30,15 @@
                                                 v-model="editedItem.guestFirstName"
                                                 label="Guest First Name"
                                                 dense
+                                                @keydown.space.prevent
                                             ></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="6">
                                             <v-text-field
                                                 v-model="editedItem.guestLastName"
-                                                label="Guest First Name"
+                                                label="Guest Last Name"
                                                 dense
+                                                @keydown.space.prevent
                                             ></v-text-field>
                                         </v-col>
                                     </v-row>
@@ -162,6 +164,9 @@ import { mapGetters } from 'vuex';
 export default {
     data() {
         return {
+            /**
+             * The color for the button.
+             */
             dialog: false,
             search: '',
             menuCheckInDate: false,
@@ -217,6 +222,13 @@ export default {
         this.getBookings();
     },
     methods: {
+        /**
+         * Gets called when the user clicks on the button
+         *
+         * @param {SyntheticEvent} event The react `SyntheticEvent`
+         * @param {Number} num Numbers of examples
+         * @public This is a public method
+         */
         async getHouses() {
             this.houses = await api.getAll('houses');
         },

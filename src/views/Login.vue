@@ -9,7 +9,7 @@
                 <v-container>
                     <v-row>
                         <v-col cols="12" sm="6" md="4">
-                            <v-text-field v-model="username" label="Username" dense></v-text-field>
+                            <v-text-field v-model="username" label="Username" dense @keydown.space.prevent></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                             <v-text-field v-model="password" label="Password" type="password" dense></v-text-field>

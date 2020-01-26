@@ -1,10 +1,12 @@
 const RANKING_NUMBER_OF_ELEMENTS = 5;
+const BRONZE_AWARD_TARGET = 30;
+const GOLD_AWARD_TARGET = 100;
 
 const COLORS = {
     USERS: {
-        completedBy: 'red',
-        checkInBy: 'green',
-        checkOutBy: 'red'
+        tasks: 'red',
+        checkIns: 'green',
+        checkOuts: 'red'
     },
     CUSTOMERS: {
         houses: 'green',
@@ -21,9 +23,9 @@ const COLORS = {
 
 const LABELS = {
     USERS: {
-        completedBy: 'Tasks Completed',
-        checkInBy: 'Check-in Completed',
-        checkOutBy: 'Check-out Completed'
+        tasks: 'Tasks Completed',
+        checkIns: 'Check-in Completed',
+        checkOuts: 'Check-out Completed'
     },
     CUSTOMERS: {
         tasks: 'Tasks',
@@ -38,4 +40,4 @@ const LABELS = {
     }
 };
 
-export { RANKING_NUMBER_OF_ELEMENTS, COLORS, LABELS };
+export { RANKING_NUMBER_OF_ELEMENTS, BRONZE_AWARD_TARGET, GOLD_AWARD_TARGET, COLORS, LABELS };

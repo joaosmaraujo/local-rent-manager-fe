@@ -21,6 +21,7 @@
                             <v-text-field
                                 v-model="lastName"
                                 label="Last Name"
+                                :rules="[inputRules.required]"
                                 dense
                                 @keydown.space.prevent
                             ></v-text-field>
@@ -57,7 +58,7 @@
                             <v-text-field
                                 v-model="confirm_password"
                                 label="Confirm Password"
-                                :rules="[inputRules.required, rules.passwordMatch]"
+                                :rules="[inputRules.required, inputRules.passwordMatch]"
                                 type="password"
                                 dense
                             ></v-text-field>
@@ -111,7 +112,7 @@ export default {
             };
 
             this.register(user).then(res => {
-                if (res.data.success) {
+                if (res.success) {
                     this.$router.push({ name: 'login' });
                 }
             });

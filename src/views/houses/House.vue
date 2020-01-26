@@ -221,7 +221,7 @@
                                                     <v-text-field
                                                         type="number"
                                                         v-model="editedTask.cost"
-                                                        :rules="[inputRules.required, inputValues.minValue]"
+                                                        :rules="[inputRules.required, inputRules.minValue]"
                                                         label="Cost"
                                                         dense
                                                     ></v-text-field>

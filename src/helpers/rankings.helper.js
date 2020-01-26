@@ -1,36 +1,83 @@
-import { RANKING_NUMBER_OF_ELEMENTS, COLORS, LABELS } from '@/constants/rankings.constants';
+import {
+    RANKING_NUMBER_OF_ELEMENTS,
+    BRONZE_AWARD_TARGET,
+    GOLD_AWARD_TARGET,
+    COLORS,
+    LABELS
+} from '@/constants/rankings.constants';
 
 function buildTop(mapList, key) {
-    return mapList.sort((itemA, itemB) => (itemA[key] < itemB[key] ? 1 : -1)).slice(0, RANKING_NUMBER_OF_ELEMENTS);
+    return buildUsersRanking(mapList, key).slice(0, RANKING_NUMBER_OF_ELEMENTS);
 }
 
-function buildRanking(users, list, key) {
-    const totalByUser = list.reduce((acc, item) => {
-        if (item[key]) {
-            const userId = item[key];
-
-            if (acc[userId]) {
-                acc[userId][key]++;
-                return acc;
-            }
-
-            acc[userId] = {
-                username: users.find(user => user._id === userId).username,
-                [key]: 1
-            };
-            return acc;
-        }
-        return acc;
-    }, {});
-
-    return buildTop(Object.values(totalByUser), key);
+function buildUsersRanking(mapList, key) {
+    return mapList.sort((itemA, itemB) => (itemA[key] < itemB[key] ? 1 : -1));
 }
 
-function buildUsersTops(users, tasks, bookings) {
+function buildUserRanks(users, userId) {
+    const usersList = buildUsersList(users);
+    const userRanks = {
+        tasks: buildUsersRanking(usersList, 'tasks').findIndex(user => user._id === userId) + 1,
+        checkIns: buildUsersRanking(usersList, 'checkIns').findIndex(user => user._id === userId) + 1,
+        checkOuts: buildUsersRanking(usersList, 'checkOuts').findIndex(user => user._id === userId) + 1
+    };
+
+    return userRanks;
+}
+
+function getBadgesCounts(counters) {
     return {
-        completedBy: buildRanking(users, tasks, 'completedBy'),
-        checkInBy: buildRanking(users, bookings, 'checkInBy'),
-        checkOutBy: buildRanking(users, bookings, 'checkOutBy')
+        bronze: {
+            tasks: Math.floor(counters.tasks / BRONZE_AWARD_TARGET),
+            checkIns: Math.floor(counters.checkIns / BRONZE_AWARD_TARGET),
+            checkOuts: Math.floor(counters.checkOuts / BRONZE_AWARD_TARGET)
+        },
+        gold: {
+            tasks: Math.floor(counters.tasks / GOLD_AWARD_TARGET),
+            checkIns: Math.floor(counters.checkIns / GOLD_AWARD_TARGET),
+            checkOuts: Math.floor(counters.checkOuts / GOLD_AWARD_TARGET)
+        }
+    };
+}
+
+function buildUserBadges(user) {
+    const badgesCount = getBadgesCounts(user.counters);
+    return {
+        tasks: {
+            bronze: [...Array(badgesCount.bronze.tasks).keys()],
+            gold: [...Array(badgesCount.gold.tasks).keys()]
+        },
+        checkIns: {
+            bronze: [...Array(badgesCount.bronze.checkIns).keys()],
+            gold: [...Array(badgesCount.gold.checkIns).keys()]
+        },
+        checkOuts: {
+            bronze: [...Array(badgesCount.bronze.checkOuts).keys()],
+            gold: [...Array(badgesCount.gold.checkOuts).keys()]
+        }
+    };
+}
+
+function buildUsersList(users) {
+    return users.map(user => {
+        return {
+            _id: user._id,
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            tasks: user.counters.tasks,
+            checkIns: user.counters.checkIns,
+            checkOuts: user.counters.checkOuts
+        };
+    });
+}
+
+function buildUsersTops(users) {
+    const usersList = buildUsersList(users);
+    return {
+        tasks: buildTop(usersList, 'tasks'),
+        checkIns: buildTop(usersList, 'checkIns'),
+        checkOuts: buildTop(usersList, 'checkOuts')
     };
 }
 
@@ -109,4 +156,4 @@ function buildRankingViewModel(tops, topName) {
     });
 }
 
-export { buildUsersTops, buildHousesTops, buildCustomersTops, buildRankingViewModel };
+export { buildUsersTops, buildHousesTops, buildCustomersTops, buildRankingViewModel, buildUserRanks, buildUserBadges };

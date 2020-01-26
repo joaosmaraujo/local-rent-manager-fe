@@ -207,8 +207,8 @@ export default {
                 checkOutDate: ''
             },
             actions: {
-                checkIn: 'mdi-location-enter',
-                checkOut: 'mdi-location-exit',
+                checkIn: 'mdi-home-import-outline',
+                checkOut: 'mdi-home-export-outline',
                 edit: 'mdi-pencil',
                 delete: 'mdi-delete'
             }

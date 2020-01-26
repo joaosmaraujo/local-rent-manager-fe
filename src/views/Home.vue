@@ -35,7 +35,7 @@
                         <v-carousel-item v-for="usersRanking in usersRankings" :key="usersRanking.key">
                             <v-sheet :color="usersRanking.color" height="100%">
                                 <v-row align="center" justify="center">
-                                    <div class="title">Top Users by {{ usersRanking.label }}</div>
+                                    <div class="margin-vertical title">Top Users by {{ usersRanking.label }}</div>
                                 </v-row>
                                 <v-row
                                     dense
@@ -43,7 +43,7 @@
                                     :key="usersRankingPosition.username"
                                 >
                                     <v-col align="center" justify="center" cols="8">
-                                        {{ usersRankingPosition.username }}
+                                        {{ usersRankingPosition.firstName }} {{ usersRankingPosition.lastName }}
                                     </v-col>
                                     <v-col align="center" justify="center" cols="4">
                                         {{ usersRankingPosition[usersRanking.key] }}
@@ -68,7 +68,7 @@
                         <v-carousel-item v-for="housesRanking in housesRankings" :key="housesRanking.key">
                             <v-sheet :color="housesRanking.color" height="100%">
                                 <v-row align="center" justify="center">
-                                    <div class="title">Top Houses by {{ housesRanking.label }}</div>
+                                    <div class="margin-vertical title">Top Houses by {{ housesRanking.label }}</div>
                                 </v-row>
                                 <v-row
                                     dense
@@ -99,7 +99,9 @@
                         <v-carousel-item v-for="customersRanking in customersRankings" :key="customersRanking.label">
                             <v-sheet :color="customersRanking.color" height="100%">
                                 <v-row align="center" justify="center">
-                                    <div class="title">Top Customers by {{ customersRanking.label }}</div>
+                                    <div class="margin-vertical title">
+                                        Top Customers by {{ customersRanking.label }}
+                                    </div>
                                 </v-row>
                                 <v-row
                                     dense
@@ -177,9 +179,7 @@ export default {
 
         async buildUsersRankings() {
             const users = await api.getAll('users');
-            const tasks = await api.getAll('tasks');
-            const bookings = await api.getAll('bookings');
-            const usersTops = buildUsersTops(users, tasks, bookings);
+            const usersTops = buildUsersTops(users);
             this.usersRankings = buildRankingViewModel(usersTops, 'USERS');
         },
 
@@ -204,5 +204,10 @@ export default {
 .margin-side-10 {
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.margin-vertical {
+    margin-top: 25px;
+    margin-bottom: 10px;
 }
 </style>

@@ -40,5 +40,11 @@ export default {
     },
     getUserProfile() {
         return this.execute('get', '/users/profile');
+    },
+    changeUserDetails(id, data) {
+        return this.execute('put', `/users/${id}`, data);
+    },
+    changePassword(id, data) {
+        return this.execute('put', `/users/reset-password/${id}`, data);
     }
 };

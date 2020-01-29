@@ -8,11 +8,11 @@
                             <img src="https://randomuser.me/api/portraits/men/81.jpg" />
                         </v-avatar>
                     </v-col>
-                    <v-col cols="9">
+                    <v-col cols="7">
                         <span class="headline">{{ user.firstName }} {{ user.lastName }}</span>
                     </v-col>
                     <v-col cols="2">
-                        <v-dialog v-model="dialog" max-width="500px">
+                        <v-dialog v-model="userDetailsDialog" max-width="500px">
                             <template v-slot:activator="{ on }">
                                 <v-btn color="primary" dark class="mb-2" v-on="on">Edit User</v-btn>
                             </template>
@@ -24,18 +24,18 @@
                                 <v-card-text>
                                     <v-container>
                                         <v-row>
-                                            <v-col cols="12" sm="6" md="6">
+                                            <v-col cols="6">
                                                 <v-text-field
-                                                    v-model="editedUser.firstName"
+                                                    v-model="user.firstName"
                                                     label="First Name"
                                                     :rules="[inputRules.required]"
                                                     dense
                                                     @keydown.space.prevent
                                                 ></v-text-field>
                                             </v-col>
-                                            <v-col cols="12" sm="6" md="6">
+                                            <v-col cols="6">
                                                 <v-text-field
-                                                    v-model="editedUser.lastName"
+                                                    v-model="user.lastName"
                                                     label="Last Name"
                                                     dense
                                                     @keydown.space.prevent
@@ -43,9 +43,9 @@
                                             </v-col>
                                         </v-row>
                                         <v-row>
-                                            <v-col cols="12" sm="6" md="4">
+                                            <v-col cols="6">
                                                 <v-text-field
-                                                    v-model="editedUser.email"
+                                                    v-model="user.email"
                                                     label="E-mail"
                                                     :rules="[inputRules.email, inputRules.required]"
                                                     type="email"
@@ -53,27 +53,51 @@
                                                     @keydown.space.prevent
                                                 ></v-text-field>
                                             </v-col>
-                                            <v-col cols="12" sm="6" md="4">
+                                            <v-col cols="6">
                                                 <v-text-field
-                                                    v-model="editedUser.username"
+                                                    v-model="user.username"
                                                     label="Username"
                                                     :rules="[inputRules.required]"
                                                     dense
                                                     @keydown.space.prevent
                                                 ></v-text-field>
                                             </v-col>
-                                            <v-col cols="12" sm="6" md="4">
+                                        </v-row>
+                                    </v-container>
+                                </v-card-text>
+
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="blue darken-1" text @click="closeChangeDetails">Cancel</v-btn>
+                                    <v-btn color="blue darken-1" text @click="saveDetails">Save</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                    </v-col>
+                    <v-col cols="2">
+                        <v-dialog v-model="changePasswordDialog" max-width="500px">
+                            <template v-slot:activator="{ on }">
+                                <v-btn color="primary" dark class="mb-2" v-on="on">Change Password</v-btn>
+                            </template>
+                            <v-card>
+                                <v-card-title>
+                                    <span class="headline">Change Password</span>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-container>
+                                        <v-row>
+                                            <v-col cols="6">
                                                 <v-text-field
-                                                    v-model="editedUser.password"
+                                                    v-model="password"
                                                     label="Password"
                                                     :rules="[inputRules.required]"
                                                     type="password"
                                                     dense
                                                 ></v-text-field>
                                             </v-col>
-                                            <v-col cols="12" sm="6" md="4">
+                                            <v-col cols="6">
                                                 <v-text-field
-                                                    v-model="editedUser.confirm_password"
+                                                    v-model="confirm_password"
                                                     label="Confirm Password"
                                                     :rules="[inputRules.required, inputRules.passwordMatch]"
                                                     type="password"
@@ -86,8 +110,8 @@
 
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                                    <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                                    <v-btn color="blue darken-1" text @click="closeChangePassword">Cancel</v-btn>
+                                    <v-btn color="blue darken-1" text @click="savePassword">Save</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -261,7 +285,8 @@ import { buildUserRanks, buildUserBadges } from '@/helpers/rankings.helper';
 export default {
     data() {
         return {
-            dialog: false,
+            userDetailsDialog: false,
+            changePasswordDialog: false,
             inputRules: {
                 required: value => !!value || 'Required.',
                 passwordMatch: value => {
@@ -288,7 +313,8 @@ export default {
                     gold: []
                 }
             },
-            editedUser: {}
+            password: '',
+            confirm_password: ''
         };
     },
     watch: {
@@ -298,35 +324,100 @@ export default {
     },
     async created() {
         this.getUserProfile();
-        this.getUserRanks();
-        this.getUserBadges();
-        this.editedUser = {
-            firstName: this.user.firstName,
-            lastName: this.user.lastName,
-            username: this.user.username,
-            email: this.user.email,
-            password: '',
-            confirm_password: ''
-        };
+        this.setUserRanks();
+        this.gstUserBadges();
     },
     methods: {
+        /**
+         * Gets the user profile from the api
+         * and assigns it to user.
+         * @param 
+         * @returns 
+         */
         async getUserProfile() {
             await api.getUserProfile().then(res => {
                 this.user = res.user;
             });
         },
-        async getUserRanks() {
+
+        /**
+         * Sets user ranks
+         * @param 
+         * @returns 
+         */
+        async setUserRanks() {
             const users = await api.getAll('users');
             this.userRanks = buildUserRanks(users, this.user._id);
         },
-        async getUserBadges() {
+
+        /**
+         * Sets user badges
+         * @param 
+         * @returns 
+         */
+        async setUserBadges() {
             await api.getUserProfile().then(res => {
                 this.userBadges = buildUserBadges(res.user);
             });
         },
-        save() {},
-        close() {
-            this.dialog = false;
+
+        /**
+         * This function tests match between password 
+         * and its confirmation
+         * @param 
+         * @returns 
+         */
+        testPasswordMatch(value) {
+            return this.password === value;
+        },
+
+        /**
+         * Saves user details
+         * @param 
+         * @returns 
+         */
+        saveDetails() {
+            api.changeUserDetails(this.user._id, {
+                firstName: this.user.firstName,
+                lastName: this.user.lastName,
+                username: this.user.username,
+                email: this.user.email
+            }).then(() => {
+                this.getUserProfile();
+                this.closeChangeDetails();
+            });
+        },
+
+        /**
+         * Saves user details
+         * @param 
+         * @returns 
+         */
+        savePassword() {
+            api.changePassword(this.user._id, {
+                password: this.password,
+                confirm_password: this.confirm_password
+            }).then(() => {
+                this.closeChangePassword();
+            });
+        },
+
+        /**
+         * Closes change details dialog
+         * @param 
+         * @returns 
+         */
+        closeChangeDetails() {
+            this.userDetailsDialog = false;
+        },
+
+        /**
+         * Closes change password dialog
+         * @param 
+         * @returns 
+         */
+        closeChangePassword() {
+            this.changePasswordDialog = false;
         }
     }
 };

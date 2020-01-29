@@ -169,9 +169,6 @@ import { mapGetters } from 'vuex';
 export default {
     data() {
         return {
-            /**
-             * The color for the button.
-             */
             dialog: false,
             search: '',
             inputRules: {
@@ -233,13 +230,6 @@ export default {
         this.getBookings();
     },
     methods: {
-        /**
-         * Gets called when the user clicks on the button
-         *
-         * @param {SyntheticEvent} event The react `SyntheticEvent`
-         * @param {Number} num Numbers of examples
-         * @public This is a public method
-         */
         async getHouses() {
             this.houses = await api.getAll('houses');
         },

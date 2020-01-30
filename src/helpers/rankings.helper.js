@@ -221,7 +221,7 @@ function buildCustomerHousesInfo(customer, housesList) {
  * @param {array} customers - array of customers
  * @param {array} houses - array of houses
  * @param {array} tasks - array of tasks
- * @returns {object} object containing the tops of customers 
+ * @returns {object} object containing the tops of customers
  * in terms of houses, tasks, bookings and cost
  */
 function buildCustomersTops(customers, houses, tasks) {
@@ -244,7 +244,7 @@ function buildCustomersTops(customers, houses, tasks) {
 
 /**
  * This function builds a ranking view model
- * containing information to render each top of the ranking 
+ * containing information to render each top of the ranking
  * @namespace rankingsHelper.buildRankingViewModel
  * @param {object} tops - object containing the tops
  * @param {string} rankingName - the name of the ranking

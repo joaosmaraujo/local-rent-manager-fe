@@ -8,7 +8,7 @@ const client = axios.create({
 
 export default {
     /**
-     * This function executes a server request using a 
+     * This function executes a server request using a
      * given method to a given resource and sends the given data
      * @namespace api.execute
      * @param {string} method - the method to be used
@@ -111,7 +111,7 @@ export default {
     },
     /**
      * This function makes a request to update user information
-     * based on its id 
+     * based on its id
      * @namespace api.changeUserDetails
      * @param {string} id - the user id
      * @param {object} data - the data required to update the user information

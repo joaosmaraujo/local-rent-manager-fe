@@ -22,6 +22,7 @@ const actions = {
         if (res.success) {
             const token = res.token;
             const user = res.user;
+            // if the login is successful, stores the token in localStorage and appends it to default axios authorization headers
             localStorage.setItem('token', token);
             axios.defaults.headers.common['Authorization'] = token;
             commit('auth_success', { token, user });
@@ -39,6 +40,7 @@ const actions = {
     },
     // Logout the user
     async logout({ commit }) {
+        // when the user logout removes the token from localStorage and from default axios authorization headers
         await localStorage.removeItem('token');
         commit('logout');
         delete axios.defaults.headers.common['Authorization'];

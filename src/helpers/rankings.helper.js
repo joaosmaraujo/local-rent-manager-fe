@@ -6,14 +6,38 @@ import {
     LABELS
 } from '@/constants/rankings.constants';
 
+/**
+ * This function builds a top with a limited number of elements
+ * of all elements of a given list sorted by a given key
+ * @namespace rankingsHelper.buildTop
+ * @param {array} mapList - list of objects which the top will be built from
+ * @param {string} key - key to be used to sort the elements of the list
+ * @returns {array} array with limited number of elements sorted by the key
+ */
 function buildTop(mapList, key) {
     return buildUsersRanking(mapList, key).slice(0, RANKING_NUMBER_OF_ELEMENTS);
 }
 
+/**
+ * This function sorts a given list by a given key
+ * @namespace rankingsHelper.buildUsersRanking
+ * @param {array} mapList - list of objects
+ * @param {string} key - key to be used to sort the elements of the list
+ * @returns {array} array with all elements sorted by the given key
+ */
 function buildUsersRanking(mapList, key) {
     return mapList.sort((itemA, itemB) => (itemA[key] < itemB[key] ? 1 : -1));
 }
 
+/**
+ * This function builds an object with the position of a user in terms of
+ * tasks completed, check-in completed and check-out completed
+ * @namespace rankingsHelper.buildUsersRanks
+ * @param {array} users - array of users
+ * @param {string} userId - user id
+ * @returns {object} object containing the position of the user
+ * for tasks, check-in and check-out completed
+ */
 function buildUserRanks(users, userId) {
     const usersList = buildUsersList(users);
     const userRanks = {
@@ -25,6 +49,17 @@ function buildUserRanks(users, userId) {
     return userRanks;
 }
 
+/**
+ * This function builds an object with the number of bronze and gold
+ * badges based on the number of tasks completed, check-in completed
+ * and check-out completed
+ * @namespace rankingsHelper.getBadgesCounts
+ * @param {object} counters
+ * @param {object|number} counters.tasks number of tasks completed
+ * @param {object|number} counters.checkIns number of check-in completed
+ * @param {object|number} counters.checkOuts number of check-out completed
+ * @returns {object} object containing the number of bronze and gold badges
+ */
 function getBadgesCounts(counters) {
     return {
         bronze: {
@@ -40,6 +75,16 @@ function getBadgesCounts(counters) {
     };
 }
 
+/**
+ * This function builds an object with arrays with as much positions
+ * as the number of bronze and gold badges for tasks completed,
+ * check-in completed and check-out completed by an user
+ * @namespace rankingsHelper.buildUserBadges
+ * @param {object} user - object containing information about the user including
+ * his counters of tasks, check-in and check-out completed
+ * @returns {object} object containing arrays with as much positions as
+ * the badges earned by the user
+ */
 function buildUserBadges(user) {
     const badgesCount = getBadgesCounts(user.counters);
     return {
@@ -58,6 +103,12 @@ function buildUserBadges(user) {
     };
 }
 
+/**
+ * This function builds a new array of users with its info adapted
+ * @namespace rankingsHelper.buildUsersList
+ * @param {array} users - array of users
+ * @returns {array} containing users
+ */
 function buildUsersList(users) {
     return users.map(user => {
         return {
@@ -72,6 +123,15 @@ function buildUsersList(users) {
     });
 }
 
+/**
+ * This function builds the tops of users in terms of
+ * tasks completed, check-in completed and check-out completed
+ * @namespace rankingsHelper.buildUsersTops
+ * @param {array} users - array of users
+ * @param {string} userId - user id
+ * @returns {object} object containing the tops of users
+ * in terms of tasks, check-in and check-out completed
+ */
 function buildUsersTops(users) {
     const usersList = buildUsersList(users);
     return {
@@ -81,6 +141,15 @@ function buildUsersTops(users) {
     };
 }
 
+/**
+ * This function builds a new array of houses with information about their
+ * labels, number of tasks, number of bookings and accumulated cost
+ * @namespace rankingsHelper.buildHousesList
+ * @param {array} houses - array of all houses
+ * @param {array} totalTasks - array of all tasks
+ * @returns {array} array of houses containing information about each one
+ * label, number of tasks, number of bookings and accumulated cost
+ */
 function buildHousesList(houses, totalTasks) {
     return houses.map(house => {
         return {
@@ -98,6 +167,15 @@ function buildHousesList(houses, totalTasks) {
     });
 }
 
+/**
+ * This function builds the tops of houses in terms of
+ * tasks, bookings and cost
+ * @namespace rankingsHelper.buildHousesTops
+ * @param {array} houses - array of houses
+ * @param {string} tasks - array of tasks
+ * @returns {object} object containing the tops of houses in terms of
+ * tasks, bookings and cost
+ */
 function buildHousesTops(houses, tasks) {
     const housesList = buildHousesList(houses, tasks);
     return {
@@ -107,6 +185,15 @@ function buildHousesTops(houses, tasks) {
     };
 }
 
+/**
+ * This function builds an object with the number of tasks, number of bookings and
+ * accumulated cost of the houses of the same customer
+ * @namespace rankingsHelper.buildCustomerHousesInfo
+ * @param {object} customer - object containing information about customer
+ * @param {array} housesList - array of houses
+ * @returns {object} object containing the number of tasks, number of bookings and
+ * accumulated cost of the houses of the same customer
+ */
 function buildCustomerHousesInfo(customer, housesList) {
     return customer.houses.reduce(
         (accHouses, customerHouse) => {
@@ -127,6 +214,16 @@ function buildCustomerHousesInfo(customer, housesList) {
     );
 }
 
+/**
+ * This function builds the tops of customers in terms of
+ * houses, tasks, bookings and cost
+ * @namespace rankingsHelper.buildCustomersTops
+ * @param {array} customers - array of customers
+ * @param {array} houses - array of houses
+ * @param {array} tasks - array of tasks
+ * @returns {object} object containing the tops of customers 
+ * in terms of houses, tasks, bookings and cost
+ */
 function buildCustomersTops(customers, houses, tasks) {
     const housesList = buildHousesList(houses, tasks);
     const customersList = customers.map(customer => {
@@ -145,12 +242,21 @@ function buildCustomersTops(customers, houses, tasks) {
     };
 }
 
-function buildRankingViewModel(tops, topName) {
+/**
+ * This function builds a ranking view model
+ * containing information to render each top of the ranking 
+ * @namespace rankingsHelper.buildRankingViewModel
+ * @param {object} tops - object containing the tops
+ * @param {string} rankingName - the name of the ranking
+ * @returns {object} object containing the view model
+ * containing information to render each top of the ranking
+ */
+function buildRankingViewModel(tops, rankingName) {
     return Object.keys(tops).map(rankingKey => {
         return {
             key: rankingKey,
-            label: LABELS[topName][rankingKey],
-            color: COLORS[topName][rankingKey],
+            label: LABELS[rankingName][rankingKey],
+            color: COLORS[rankingName][rankingKey],
             data: tops[rankingKey]
         };
     });

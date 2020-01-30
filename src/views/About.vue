@@ -1,7 +1,11 @@
 <template>
     <div>
         <h2>About</h2>
-        <p>This is the page About</p>
+        <p>This web app is an academic project for ESMAD - IPP</p>
+        <p>
+            It was develop to explore and prove some Web Development knowledge in the context of the Distributed Systems
+            class
+        </p>
     </div>
 </template>
 

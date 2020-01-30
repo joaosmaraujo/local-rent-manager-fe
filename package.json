@@ -1,6 +1,6 @@
 {
-  "name": "lrm-frontend",
-  "version": "0.1.0",
+  "name": "local-rent-manager-web-app",
+  "version": "1.0.0",
   "description": "Local Rent Manager app",
   "author": "João Araújo <joaosmaraujo@gmail.com>",
   "license": "ISC",

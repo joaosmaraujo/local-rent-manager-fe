@@ -17,17 +17,24 @@ import store from '../store.js';
 Vue.use(VueRouter);
 
 const routes = [
-    { path: '/', name: 'home', component: Home, meta: { requiresAuth: true } },
-    { path: '/user-profile', name: 'userProfile', component: UserProfile, meta: { requiresAuth: true } },
+    /*** ROUTES BEFORE LOGIN ***/
     { path: '/about', name: 'about', component: About, meta: { requiresGuest: true } },
     { path: '/register', name: 'register', component: Register, meta: { requiresGuest: true } },
     { path: '/login', name: 'login', component: Login, meta: { requiresGuest: true } },
+    /*** ROUTES AFTER LOGIN ***/
+    { path: '/', name: 'home', component: Home, meta: { requiresAuth: true } },
+    { path: '/user-profile', name: 'userProfile', component: UserProfile, meta: { requiresAuth: true } },
+    // customers routes
     { path: '/customers-list', name: 'customersList', component: CustomersList, meta: { requiresAuth: true } },
     { path: '/customers/:customerId', name: 'customer', component: Customer, meta: { requiresAuth: true } },
+    // works routes
     { path: '/works-list', name: 'worksList', component: WorksList, meta: { requiresAuth: true } },
+    // houses routes
     { path: '/houses-list', name: 'housesList', component: HousesList, meta: { requiresAuth: true } },
     { path: '/houses/:houseId', name: 'house', component: House, meta: { requiresAuth: true } },
+    // bookings routes
     { path: '/bookings-list', name: 'bookingsList', component: BookingsList, meta: { requiresAuth: true } },
+    // tasks routes
     { path: '/tasks-list', name: 'tasksList', component: TasksList, meta: { requiresAuth: true } }
 ];
 

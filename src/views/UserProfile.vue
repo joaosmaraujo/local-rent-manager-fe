@@ -328,54 +328,27 @@ export default {
         this.gstUserBadges();
     },
     methods: {
-        /**
-         * Gets the user profile from the api
-         * and assigns it to user.
-         * @param 
-         * @returns 
-         */
         async getUserProfile() {
             await api.getUserProfile().then(res => {
                 this.user = res.user;
             });
         },
 
-        /**
-         * Sets user ranks
-         * @param 
-         * @returns 
-         */
         async setUserRanks() {
             const users = await api.getAll('users');
             this.userRanks = buildUserRanks(users, this.user._id);
         },
 
-        /**
-         * Sets user badges
-         * @param 
-         * @returns 
-         */
         async setUserBadges() {
             await api.getUserProfile().then(res => {
                 this.userBadges = buildUserBadges(res.user);
             });
         },
 
-        /**
-         * This function tests match between password 
-         * and its confirmation
-         * @param 
-         * @returns 
-         */
         testPasswordMatch(value) {
             return this.password === value;
         },
 
-        /**
-         * Saves user details
-         * @param 
-         * @returns 
-         */
         saveDetails() {
             api.changeUserDetails(this.user._id, {
                 firstName: this.user.firstName,
@@ -388,11 +361,6 @@ export default {
             });
         },
 
-        /**
-         * Saves user details
-         * @param 
-         * @returns 
-         */
         savePassword() {
             api.changePassword(this.user._id, {
                 password: this.password,
@@ -402,20 +370,10 @@ export default {
             });
         },
 
-        /**
-         * Closes change details dialog
-         * @param 
-         * @returns 
-         */
         closeChangeDetails() {
             this.userDetailsDialog = false;
         },
 
-        /**
-         * Closes change password dialog
-         * @param 
-         * @returns 
-         */
         closeChangePassword() {
             this.changePasswordDialog = false;
         }

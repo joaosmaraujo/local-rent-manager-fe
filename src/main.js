@@ -8,15 +8,16 @@ import 'vuetify/dist/vuetify.min.css';
 
 Vue.config.productionTip = false;
 
-// Setting up default vue's http modules for api calls
+// Setting up axios as default vue's http modules for api calls
 Vue.prototype.$http = axios;
-// Load the token from the localStorage
+// Load authorization token from the localStorage
 const token = localStorage.getItem('token');
-// Is there is any token then we will simply append default axios authorization headers
+// If there is any token appends it to default axios authorization headers
 if (token) {
     Vue.prototype.$http.defaults.headers.common['Authorization'] = token;
 }
 
+// Creates global filter to be used to format dates
 Vue.filter('formatDate', function(value) {
     if (value) {
         return new Date(value).toISOString().substr(0, 10);
